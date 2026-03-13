@@ -1,446 +1,278 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IA en la Educación Pública Costarricense</title>
-  <style>
-    /* ── Reset & tokens ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --blue:   #0039A6;
-      --red:    #CE1126;
-      --white:  #ffffff;
-      --light:  #f4f7fb;
-      --muted:  #6b7a99;
-      --card:   #ffffff;
-      --border: #e2e8f0;
-      --text:   #1a2540;
-      --accent: #2563eb;
-      --green:  #16a34a;
-      --amber:  #d97706;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--light);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* ── Nav ──────────────────────────────────────────────────── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem;
-      height: 60px;
-      background: var(--blue);
-      box-shadow: 0 2px 8px rgba(0,0,0,.25);
-    }
-
-    .nav-logo {
-      display: flex; align-items: center; gap: .6rem;
-      color: var(--white); font-weight: 700; font-size: 1rem; text-decoration: none;
-    }
-
-    .nav-logo .flag { display: flex; }
-    .nav-logo .flag span {
-      display: inline-block; width: 8px; height: 22px;
-    }
-
-    nav ul {
-      display: flex; gap: 1.4rem; list-style: none;
-    }
-
-    nav ul a {
-      color: rgba(255,255,255,.85);
-      text-decoration: none; font-size: .875rem; font-weight: 500;
-      transition: color .2s;
-    }
-    nav ul a:hover { color: var(--white); }
-
-    /* ── Hero ─────────────────────────────────────────────────── */
-    .hero {
-      background: linear-gradient(135deg, var(--blue) 0%, #1a4db8 50%, #0a2d8c 100%);
-      color: var(--white);
-      padding: 5rem 2rem 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-    }
-
-    .hero-tag {
-      display: inline-block;
-      background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.3);
-      border-radius: 999px;
-      padding: .3rem 1rem;
-      font-size: .8rem;
-      font-weight: 600;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 {
-      font-size: clamp(1.6rem, 4vw, 2.8rem);
-      font-weight: 800;
-      line-height: 1.2;
-      max-width: 820px;
-      margin: 0 auto 1.2rem;
-    }
-
-    .hero p {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,.8);
-      max-width: 640px;
-      margin: 0 auto 2.5rem;
-    }
-
-    .hero-cta {
-      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .75rem 1.75rem;
-      border-radius: 8px;
-      font-weight: 600; font-size: .95rem;
-      text-decoration: none; cursor: pointer; border: none;
-      transition: all .2s;
-    }
-
-    .btn-white {
-      background: var(--white); color: var(--blue);
-    }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
-
-    .btn-outline {
-      background: transparent; color: var(--white);
-      border: 2px solid rgba(255,255,255,.5);
-    }
-    .btn-outline:hover { background: rgba(255,255,255,.1); border-color: var(--white); }
-
-    /* ── Stats bar ────────────────────────────────────────────── */
-    .stats-bar {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      background: var(--red);
-      color: var(--white);
-      text-align: center;
-    }
-
-    .stat-item {
-      padding: 1.4rem 1rem;
-      border-right: 1px solid rgba(255,255,255,.2);
-    }
-    .stat-item:last-child { border-right: none; }
-
-    .stat-item .number {
-      font-size: 2rem; font-weight: 800; display: block;
-    }
-    .stat-item .label {
-      font-size: .78rem; opacity: .85; text-transform: uppercase; letter-spacing: .05em;
-    }
-
-    /* ── Section layout ───────────────────────────────────────── */
-    section { padding: 4rem 2rem; }
-
-    .container { max-width: 1100px; margin: 0 auto; }
-
-    .section-header {
-      text-align: center; margin-bottom: 3rem;
-    }
-
-    .section-tag {
-      display: inline-block;
-      background: #dbeafe; color: var(--accent);
-      border-radius: 999px;
-      padding: .25rem .9rem;
-      font-size: .75rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .06em;
-      margin-bottom: .75rem;
-    }
-
-    .section-header h2 {
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      font-weight: 800; color: var(--text);
-      margin-bottom: .5rem;
-    }
-
-    .section-header p {
-      color: var(--muted); font-size: .95rem; max-width: 560px; margin: 0 auto;
-    }
-
-    /* ── Cards ────────────────────────────────────────────────── */
-    .cards {
-      display: grid; gap: 1.5rem;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.75rem;
-      transition: box-shadow .2s, transform .2s;
-    }
-    .card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.1); transform: translateY(-3px); }
-
-    .card-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
-
-    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
-    .card p { font-size: .875rem; color: var(--muted); line-height: 1.6; }
-
-    /* ── Survey results ───────────────────────────────────────── */
-    #encuesta { background: var(--white); }
-
-    .survey-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    @media (max-width: 700px) { .survey-grid { grid-template-columns: 1fr; } }
-
-    .survey-card {
-      background: var(--light);
-      border-radius: 14px;
-      padding: 1.5rem;
-      border: 1px solid var(--border);
-    }
-
-    .survey-card .question {
-      font-size: .875rem; font-weight: 700;
-      color: var(--text);
-      margin-bottom: 1rem;
-    }
-
-    .bar-row {
-      display: flex; flex-direction: column; gap: .6rem;
-      margin-bottom: .25rem;
-    }
-
-    .bar-label {
-      display: flex; justify-content: space-between;
-      font-size: .78rem; color: var(--muted);
-      margin-bottom: .2rem;
-    }
-
-    .bar-track {
-      background: #e2e8f0; border-radius: 999px; height: 10px; overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%; border-radius: 999px;
-      transition: width 1s ease;
-    }
-
-    /* Donut chart */
-    .donut-wrap {
-      display: flex; align-items: center; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
-    }
-
-    .donut-svg { flex-shrink: 0; }
-
-    .donut-legend { display: flex; flex-direction: column; gap: .5rem; }
-    .legend-item { display: flex; align-items: center; gap: .5rem; font-size: .78rem; color: var(--muted); }
-    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-
-    /* ── Timeline ─────────────────────────────────────────────── */
-    #acciones { background: var(--light); }
-
-    .timeline {
-      position: relative;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute; left: 20px; top: 0; bottom: 0;
-      width: 2px; background: var(--border);
-    }
-
-    .tl-item {
-      display: flex; gap: 1.5rem;
-      padding-bottom: 2rem;
-      position: relative;
-    }
-
-    .tl-dot {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; flex-shrink: 0;
-      position: relative; z-index: 1;
-      border: 3px solid var(--white);
-    }
-
-    .tl-body {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      flex: 1;
-    }
-
-    .tl-body .year {
-      font-size: .75rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .07em; color: var(--accent);
-      margin-bottom: .3rem;
-    }
-
-    .tl-body h4 { font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
-    .tl-body p  { font-size: .83rem; color: var(--muted); }
-
-    /* ── Retos ────────────────────────────────────────────────── */
-    #retos { background: var(--white); }
-
-    .challenge-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .challenge-card {
-      border-radius: 12px;
-      padding: 1.5rem;
-      border-left: 4px solid;
-    }
-
-    .challenge-card h4 { font-size: .93rem; font-weight: 700; margin-bottom: .4rem; }
-    .challenge-card p  { font-size: .82rem; color: var(--muted); }
-
-    /* ── Recomendaciones ──────────────────────────────────────── */
-    #recomendaciones { background: var(--light); }
-
-    .rec-list { display: flex; flex-direction: column; gap: 1rem; max-width: 800px; margin: 0 auto; }
-
-    .rec-item {
-      display: flex; gap: 1.25rem; align-items: flex-start;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-    }
-
-    .rec-num {
-      width: 36px; height: 36px; flex-shrink: 0;
-      background: var(--blue); color: var(--white);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: .9rem;
-    }
-
-    .rec-item h4 { font-size: .93rem; font-weight: 700; margin-bottom: .3rem; }
-    .rec-item p  { font-size: .82rem; color: var(--muted); }
-
-    /* ── Equipo ───────────────────────────────────────────────── */
-    #equipo { background: var(--white); }
-
-    .team-grid {
-      display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
-    }
-
-    .member-card {
-      background: var(--light);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      text-align: center;
-      min-width: 160px;
-    }
-
-    .member-avatar {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      margin: 0 auto .75rem;
-    }
-
-    .member-card h4 { font-size: .85rem; font-weight: 700; }
-    .member-card p  { font-size: .75rem; color: var(--muted); }
-
-    /* ── Footer ───────────────────────────────────────────────── */
-    footer {
-      background: var(--blue);
-      color: rgba(255,255,255,.7);
-      text-align: center;
-      padding: 2rem;
-      font-size: .82rem;
-    }
-
-    footer strong { color: var(--white); }
-
-    /* ── Method badge ─────────────────────────────────────────── */
-    .method-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      max-width: 820px;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 600px) { .method-grid { grid-template-columns: 1fr; } }
-
-    .method-card {
-      border-radius: 14px;
-      padding: 2rem;
-      border: 1px solid var(--border);
-    }
-
-    .method-card .icon { font-size: 2rem; margin-bottom: 1rem; }
-    .method-card h3   { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
-    .method-card p    { font-size: .875rem; color: var(--muted); }
-    .method-card ul   { font-size: .875rem; color: var(--muted); padding-left: 1.2rem; margin-top: .5rem; }
-    .method-card li   { margin-bottom: .3rem; }
-
-    /* ── Animated counter ─────────────────────────────────────── */
-    @keyframes countUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .number { animation: countUp .6s ease forwards; }
-
-    /* ── Scroll animation ─────────────────────────────────────── */
-    .fade-in {
-      opacity: 0; transform: translateY(20px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: none; }
-
-    /* ── Responsive nav ───────────────────────────────────────── */
-    @media (max-width: 640px) {
-      nav ul { display: none; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IA en la Educación Pública Costarricense · MEP 2022–2026</title>
+<style>
+/* ── tokens ─────────────────────────────────────────────────── */
+:root{
+  --blue:#0039A6;--blue2:#1a4db8;--red:#CE1126;
+  --white:#fff;--light:#f4f7fb;--card:#fff;
+  --border:#e2e8f0;--text:#1a2540;--muted:#6b7a99;
+  --accent:#2563eb;--green:#16a34a;--amber:#d97706;
+  --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--light);color:var(--text);line-height:1.6}
+
+/* ── scroll progress ─────────────────────────────────────────── */
+#progress-bar{position:fixed;top:0;left:0;z-index:200;height:3px;width:0%;background:var(--red);transition:width .1s linear}
+
+/* ── nav ─────────────────────────────────────────────────────── */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;background:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.nav-logo{display:flex;align-items:center;gap:.6rem;color:#fff;font-weight:700;font-size:.95rem;text-decoration:none}
+.flag span{display:inline-block;width:8px;height:22px}
+nav ul{display:flex;gap:1.2rem;list-style:none}
+nav ul a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:500;padding:.2rem .5rem;border-radius:6px;transition:all .2s}
+nav ul a.active,nav ul a:hover{color:#fff;background:rgba(255,255,255,.15)}
+@media(max-width:700px){nav ul{display:none}}
+
+/* ── hero ────────────────────────────────────────────────────── */
+.hero{background:linear-gradient(135deg,var(--blue) 0%,#1a4db8 50%,#0a2d8c 100%);color:#fff;padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+/* animated neural network canvas sits here */
+#hero-canvas{position:absolute;inset:0;pointer-events:none;opacity:.35}
+.hero-content{position:relative;z-index:2}
+.hero-tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.3rem 1rem;font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(1.6rem,4vw,2.8rem);font-weight:800;line-height:1.2;max-width:820px;margin:0 auto 1.2rem}
+.hero p{font-size:1.05rem;color:rgba(255,255,255,.8);max-width:640px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+.btn-white{background:#fff;color:var(--blue)}.btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}.btn-outline:hover{background:rgba(255,255,255,.1);border-color:#fff}
+
+/* ── stats bar ───────────────────────────────────────────────── */
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));background:var(--red);color:#fff;text-align:center}
+.stat-item{padding:1.4rem 1rem;border-right:1px solid rgba(255,255,255,.2);cursor:default;position:relative}
+.stat-item:last-child{border-right:none}
+.stat-item .number{font-size:2rem;font-weight:800;display:block}
+.stat-item .label{font-size:.75rem;opacity:.85;text-transform:uppercase;letter-spacing:.05em}
+/* tooltip */
+.stat-item .tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--text);color:#fff;border-radius:8px;padding:.5rem .9rem;font-size:.75rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.stat-item .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--text)}
+.stat-item:hover .tip{opacity:1}
+
+/* ── sections ────────────────────────────────────────────────── */
+section{padding:4rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-tag{display:inline-block;background:#dbeafe;color:var(--accent);border-radius:999px;padding:.25rem .9rem;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.section-header h2{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:var(--text);margin-bottom:.5rem}
+.section-header p{color:var(--muted);font-size:.95rem;max-width:560px;margin:0 auto}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+
+/* ── cards ───────────────────────────────────────────────────── */
+.cards{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;transition:box-shadow .2s,transform .2s}
+.card:hover{box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-3px)}
+.card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+.card h3{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.card p{font-size:.875rem;color:var(--muted);line-height:1.6}
+
+/* ── methodology ─────────────────────────────────────────────── */
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:820px;margin:0 auto}
+@media(max-width:600px){.method-grid{grid-template-columns:1fr}}
+.method-card{border-radius:var(--radius);padding:2rem;border:1px solid var(--border)}
+.method-card .icon{font-size:2rem;margin-bottom:1rem}
+.method-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
+.method-card p{font-size:.875rem;color:var(--muted)}
+.method-card ul{font-size:.875rem;color:var(--muted);padding-left:1.2rem;margin-top:.5rem}
+.method-card li{margin-bottom:.3rem}
+
+/* ── POLL ────────────────────────────────────────────────────── */
+#encuesta{background:var(--white)}
+.poll-tabs{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.poll-tab{padding:.5rem 1.2rem;border-radius:999px;border:2px solid var(--border);background:#fff;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted)}
+.poll-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.poll-card{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;display:none}
+.poll-card.active{display:block}
+.poll-question{font-size:1rem;font-weight:700;margin-bottom:1.25rem}
+.poll-options{display:flex;flex-direction:column;gap:.65rem}
+.poll-option{display:flex;align-items:center;gap:.9rem;background:#fff;border:2px solid var(--border);border-radius:10px;padding:.85rem 1.1rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.poll-option:hover{border-color:var(--accent);background:#f0f9ff}
+.poll-option.selected{border-color:var(--blue);background:#eff6ff}
+.poll-option.voted{cursor:default}
+.poll-option .opt-label{font-size:.9rem;font-weight:500;flex:1;position:relative;z-index:1}
+.poll-option .opt-pct{font-size:.82rem;font-weight:700;color:var(--accent);position:relative;z-index:1;min-width:36px;text-align:right}
+.poll-fill{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:rgba(37,99,235,.08);transition:width .7s ease;width:0%}
+.poll-option.winner .opt-label{color:var(--blue)}
+.vote-btn{display:block;width:100%;margin-top:1.25rem;padding:.75rem;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s}
+.vote-btn:hover{background:var(--blue2);transform:translateY(-1px)}
+.vote-btn:disabled{background:#93c5fd;cursor:default;transform:none}
+.poll-total{font-size:.78rem;color:var(--muted);text-align:right;margin-top:.6rem}
+
+/* ── radar chart ─────────────────────────────────────────────── */
+#radar-section{background:var(--light)}
+.radar-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;max-width:900px;margin:0 auto}
+@media(max-width:650px){.radar-wrap{grid-template-columns:1fr}}
+#radar-canvas{display:block;margin:0 auto}
+.radar-legend{display:flex;flex-direction:column;gap:.9rem}
+.rl-item{display:flex;align-items:center;gap:.9rem}
+.rl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.rl-label{font-size:.85rem;font-weight:600}
+.rl-bar-track{flex:1;height:7px;background:var(--border);border-radius:999px;overflow:hidden}
+.rl-bar-fill{height:100%;border-radius:999px;transition:width 1.2s ease}
+.rl-val{font-size:.8rem;font-weight:700;color:var(--muted);min-width:32px;text-align:right}
+
+/* ── timeline ────────────────────────────────────────────────── */
+#acciones{background:var(--white)}
+.timeline{position:relative;max-width:720px;margin:0 auto}
+.timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{display:flex;gap:1.5rem;padding-bottom:1.5rem;cursor:pointer}
+.tl-dot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;position:relative;z-index:1;border:3px solid #fff;transition:transform .2s,box-shadow .2s}
+.tl-item:hover .tl-dot{transform:scale(1.15);box-shadow:0 0 0 4px rgba(37,99,235,.2)}
+.tl-body{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.4rem;flex:1;transition:box-shadow .2s,border-color .2s}
+.tl-item:hover .tl-body,.tl-item.open .tl-body{box-shadow:0 4px 18px rgba(0,0,0,.1);border-color:var(--accent)}
+.tl-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.tl-body .year{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.2rem}
+.tl-body h4{font-size:.93rem;font-weight:700}
+.tl-toggle{font-size:1.1rem;color:var(--muted);transition:transform .3s;flex-shrink:0;margin-top:2px}
+.tl-item.open .tl-toggle{transform:rotate(180deg)}
+.tl-detail{font-size:.83rem;color:var(--muted);max-height:0;overflow:hidden;transition:max-height .4s ease,padding-top .3s}
+.tl-item.open .tl-detail{max-height:200px;padding-top:.7rem}
+.tl-tag{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:700;border-radius:999px;padding:.2rem .65rem;margin-top:.5rem}
+
+/* ── challenges filter ───────────────────────────────────────── */
+#retos{background:var(--light)}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem}
+.filter-btn{padding:.45rem 1.1rem;border-radius:999px;border:2px solid var(--border);background:#fff;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted)}
+.filter-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+.challenge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.challenge-card{border-radius:var(--radius);padding:1.5rem;border-left:4px solid;transition:opacity .35s,transform .35s}
+.challenge-card.hidden{opacity:0;pointer-events:none;transform:scale(.95)}
+.challenge-card h4{font-size:.93rem;font-weight:700;margin-bottom:.35rem}
+.challenge-card p{font-size:.82rem;color:var(--muted)}
+.c-badge{display:inline-block;font-size:.68rem;font-weight:700;border-radius:999px;padding:.15rem .6rem;margin-top:.6rem}
+
+/* ── recommendation accordion ────────────────────────────────── */
+#recomendaciones{background:var(--white)}
+.rec-list{display:flex;flex-direction:column;gap:.9rem;max-width:820px;margin:0 auto}
+.rec-item{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s}
+.rec-item:hover{box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.rec-header{display:flex;align-items:center;gap:1.1rem;padding:1.1rem 1.5rem;cursor:pointer}
+.rec-num{width:36px;height:36px;flex-shrink:0;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem}
+.rec-title{flex:1;font-size:.93rem;font-weight:700}
+.rec-priority{font-size:.7rem;font-weight:700;border-radius:999px;padding:.18rem .65rem}
+.rec-chevron{font-size:1rem;color:var(--muted);transition:transform .3s}
+.rec-item.open .rec-chevron{transform:rotate(180deg)}
+.rec-body{font-size:.85rem;color:var(--muted);max-height:0;overflow:hidden;transition:max-height .4s ease}
+.rec-item.open .rec-body{max-height:200px}
+.rec-body-inner{padding:0 1.5rem 1.25rem 4rem}
+
+/* ── quiz ────────────────────────────────────────────────────── */
+#quiz{background:var(--light)}
+.quiz-wrap{max-width:720px;margin:0 auto}
+.quiz-progress-track{height:6px;background:var(--border);border-radius:999px;margin-bottom:2rem;overflow:hidden}
+.quiz-progress-fill{height:100%;background:var(--blue);border-radius:999px;transition:width .4s ease}
+.quiz-step{display:none}.quiz-step.active{display:block}
+.quiz-q{font-size:1.05rem;font-weight:700;margin-bottom:1.25rem}
+.quiz-options{display:flex;flex-direction:column;gap:.65rem}
+.quiz-opt{display:flex;align-items:center;gap:.9rem;background:var(--white);border:2px solid var(--border);border-radius:10px;padding:.85rem 1.1rem;cursor:pointer;font-size:.9rem;font-weight:500;transition:all .2s}
+.quiz-opt:hover{border-color:var(--accent);background:#eff6ff}
+.quiz-opt.correct{border-color:var(--green);background:#f0fdf4;color:var(--green)}
+.quiz-opt.wrong{border-color:var(--red);background:#fff1f2;color:var(--red)}
+.quiz-opt.disabled{cursor:default}
+.quiz-opt .opt-icon{font-size:1rem;width:20px;text-align:center}
+.quiz-feedback{margin-top:1rem;padding:.9rem 1.1rem;border-radius:10px;font-size:.875rem;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0}
+.quiz-feedback.fail{background:#fff1f2;color:var(--red);border:1px solid #fecdd3}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem}
+.quiz-count{font-size:.82rem;color:var(--muted)}
+.btn-quiz{padding:.7rem 1.5rem;border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s}
+.btn-next{background:var(--blue);color:#fff}.btn-next:hover{background:var(--blue2)}.btn-next:disabled{background:#93c5fd;cursor:default}
+.quiz-result{text-align:center;padding:2rem 1rem}
+.quiz-result .score{font-size:3.5rem;font-weight:900;color:var(--blue)}
+.quiz-result h3{font-size:1.3rem;font-weight:700;margin:.5rem 0}
+.quiz-result p{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+.bar-score{height:12px;background:var(--border);border-radius:999px;max-width:360px;margin:1rem auto;overflow:hidden}
+.bar-score-fill{height:100%;background:var(--blue);border-radius:999px;transition:width 1s ease}
+.restart-btn{background:var(--light);border:2px solid var(--border);border-radius:8px;padding:.65rem 1.4rem;font-weight:700;cursor:pointer;font-size:.9rem;transition:all .2s}
+.restart-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── ACTORES section ─────────────────────────────────────────── */
+#actores{background:var(--white)}
+.actor-tabs{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+.actor-tab{
+  display:flex;align-items:center;gap:.55rem;
+  padding:.6rem 1.3rem;border-radius:999px;border:2px solid var(--border);
+  background:#fff;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .25s;color:var(--muted)
+}
+.actor-tab .tab-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.actor-tab.active,.actor-tab:hover{color:var(--white)}
+
+.actor-panel{display:none}.actor-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+@media(max-width:680px){.actor-panel.active{grid-template-columns:1fr}}
+
+.actor-hero{border-radius:var(--radius);padding:2rem;border:1px solid var(--border)}
+.actor-hero .big-icon{font-size:3rem;margin-bottom:1rem}
+.actor-hero h3{font-size:1.3rem;font-weight:800;margin-bottom:.4rem}
+.actor-hero .sub{font-size:.85rem;color:var(--muted);margin-bottom:1.25rem}
+.actor-hero .role-pill{
+  display:inline-block;border-radius:999px;padding:.3rem 1rem;
+  font-size:.78rem;font-weight:700;margin-bottom:1.25rem
+}
+.actor-hero p{font-size:.875rem;color:var(--muted);line-height:1.7}
+
+.actor-details{display:flex;flex-direction:column;gap:1rem}
+.detail-card{background:var(--light);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.25rem}
+.detail-card h4{font-size:.85rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.detail-card ul{padding-left:1.1rem;font-size:.82rem;color:var(--muted)}
+.detail-card li{margin-bottom:.3rem}
+
+/* investment meter */
+.invest-meter{margin-top:.75rem}
+.invest-label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:.3rem}
+.invest-track{height:10px;background:var(--border);border-radius:999px;overflow:hidden}
+.invest-fill{height:100%;border-radius:999px;width:0%;transition:width 1s ease}
+
+/* ecosystem SVG map */
+.ecosystem-wrap{margin-top:3.5rem;text-align:center}
+.ecosystem-wrap h3{font-size:1rem;font-weight:700;margin-bottom:1.5rem;color:var(--muted)}
+#eco-svg{max-width:700px;width:100%;margin:0 auto;display:block;cursor:default}
+.eco-node{cursor:pointer;transition:filter .2s}
+.eco-node:hover{filter:brightness(1.12)}
+.eco-label{font-family:'Segoe UI',system-ui,sans-serif;font-size:12px;font-weight:700;fill:#1a2540;text-anchor:middle}
+.eco-sub{font-family:'Segoe UI',system-ui,sans-serif;font-size:9.5px;fill:#6b7a99;text-anchor:middle}
+.eco-line{stroke-dasharray:6 4;stroke-width:1.8;opacity:.55}
+
+/* participation CTA */
+.cta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:3.5rem}
+.cta-card{
+  border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);
+  background:#fff;text-align:center;transition:all .2s
+}
+.cta-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.1);transform:translateY(-3px)}
+.cta-card .cta-icon{font-size:2rem;margin-bottom:.75rem}
+.cta-card h4{font-size:.9rem;font-weight:700;margin-bottom:.4rem}
+.cta-card p{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
+.cta-badge{display:inline-block;border-radius:999px;padding:.25rem .85rem;font-size:.75rem;font-weight:700}
+
+/* ── team ────────────────────────────────────────────────────── */
+#equipo{background:var(--white)}
+.team-grid{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.member-card{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;text-align:center;min-width:155px;transition:all .2s}
+.member-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-3px)}
+.member-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto .75rem}
+.member-card h4{font-size:.85rem;font-weight:700}
+.member-card p{font-size:.75rem;color:var(--muted)}
+footer{background:var(--blue);color:rgba(255,255,255,.7);text-align:center;padding:2rem;font-size:.82rem}
+footer strong{color:#fff}
+</style>
 </head>
 <body>
 
-<!-- ── Navigation ─────────────────────────────────────────────── -->
+<div id="progress-bar"></div>
+
+<!-- Nav -->
 <nav>
   <a class="nav-logo" href="#">
-    <div class="flag">
-      <span style="background:#0039A6;"></span>
-      <span style="background:#CE1126;"></span>
-      <span style="background:#0039A6;"></span>
+    <div class="flag" style="display:flex">
+      <span style="background:#0039A6"></span>
+      <span style="background:#CE1126"></span>
+      <span style="background:#0039A6"></span>
     </div>
     IA &amp; MEP Costa Rica
   </a>
@@ -448,500 +280,1059 @@
     <li><a href="#contexto">Contexto</a></li>
     <li><a href="#metodologia">Metodología</a></li>
     <li><a href="#encuesta">Encuesta</a></li>
+    <li><a href="#radar-section">Análisis</a></li>
     <li><a href="#acciones">Acciones MEP</a></li>
     <li><a href="#retos">Retos</a></li>
     <li><a href="#recomendaciones">Propuestas</a></li>
-    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#actores">Actores</a></li>
+    <li><a href="#quiz">Quiz</a></li>
   </ul>
 </nav>
 
-<!-- ── Hero ───────────────────────────────────────────────────── -->
+<!-- Hero with animated canvas -->
 <header class="hero">
-  <div class="hero-tag">Seminario de Investigación · 2026</div>
-  <h1>Regulación de la Inteligencia Artificial en la Educación Pública Costarricense</h1>
-  <p>Un análisis de las acciones del MEP (2022–2026), los vacíos regulatorios y el camino hacia un uso ético y equitativo de la IA en las aulas.</p>
-  <div class="hero-cta">
-    <a href="#contexto" class="btn btn-white">Explorar investigación</a>
-    <a href="#recomendaciones" class="btn btn-outline">Ver propuestas</a>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-tag">Seminario de Investigación · 2026</div>
+    <h1>Regulación de la Inteligencia Artificial en la Educación Pública Costarricense</h1>
+    <p>Un análisis de las acciones del MEP (2022–2026), los vacíos regulatorios y el camino hacia un uso ético y equitativo de la IA en las aulas.</p>
+    <div class="hero-cta">
+      <a href="#contexto" class="btn btn-white">Explorar investigación</a>
+      <a href="#quiz" class="btn btn-outline">Hacer el quiz →</a>
+    </div>
   </div>
 </header>
 
-<!-- ── Stats bar ───────────────────────────────────────────────── -->
+<!-- Stats bar -->
 <div class="stats-bar">
-  <div class="stat-item">
-    <span class="number">84%</span>
-    <span class="label">estudiantes usan IA</span>
-  </div>
-  <div class="stat-item">
-    <span class="number">91%</span>
-    <span class="label">apoyan regulación</span>
-  </div>
-  <div class="stat-item">
-    <span class="number">0</span>
-    <span class="label">leyes específicas vigentes</span>
-  </div>
-  <div class="stat-item">
-    <span class="number">3</span>
-    <span class="label">iniciativas MEP activas</span>
-  </div>
-  <div class="stat-item">
-    <span class="number">2026</span>
-    <span class="label">año lectivo</span>
-  </div>
+  <div class="stat-item"><div class="tip">De los estudiantes encuestados en ULACIT</div><span class="number" data-target="84">0</span><span class="number">%</span><span class="label">estudiantes usan IA</span></div>
+  <div class="stat-item"><div class="tip">Apoyan algún tipo de regulación del MEP</div><span class="number" data-target="91">0</span><span class="number">%</span><span class="label">apoyan regulación</span></div>
+  <div class="stat-item"><div class="tip">No existe legislación específica vigente</div><span class="number" data-target="0">0</span><span class="label">leyes específicas vigentes</span></div>
+  <div class="stat-item"><div class="tip">Circulares, alianzas y diagnósticos activos</div><span class="number" data-target="3">0</span><span class="label">iniciativas MEP activas</span></div>
+  <div class="stat-item"><div class="tip">Piden formación docente urgente en IA</div><span class="number" data-target="63">0</span><span class="number">%</span><span class="label">piden formación urgente</span></div>
 </div>
 
-<!-- ── Contexto ────────────────────────────────────────────────── -->
+<!-- Contexto -->
 <section id="contexto">
   <div class="container">
     <div class="section-header fade-in">
       <div class="section-tag">Contexto</div>
       <h2>¿Por qué es urgente regular la IA en la educación?</h2>
-      <p>La inteligencia artificial está transformando los procesos educativos, pero sin marcos normativos claros, sus riesgos superan sus beneficios.</p>
+      <p>La IA está transformando los procesos educativos, pero sin marcos normativos claros sus riesgos superan sus beneficios.</p>
     </div>
-
     <div class="cards">
-      <div class="card fade-in">
-        <div class="card-icon" style="background:#dbeafe;">🏫</div>
-        <h3>Integración acelerada</h3>
-        <p>Las herramientas de IA se han incorporado masivamente en los centros educativos públicos sin lineamientos pedagógicos o éticos que guíen su uso.</p>
-      </div>
-      <div class="card fade-in">
-        <div class="card-icon" style="background:#fef9c3;">⚖️</div>
-        <h3>Vacío regulatorio</h3>
-        <p>Costa Rica carece de legislación específica sobre IA en educación. El MEP ha emitido circulares orientativas, pero no tienen fuerza normativa vinculante.</p>
-      </div>
-      <div class="card fade-in">
-        <div class="card-icon" style="background:#dcfce7;">🌐</div>
-        <h3>Brecha digital</h3>
-        <p>El acceso desigual a dispositivos e internet entre zonas urbanas y rurales profundiza las desigualdades educativas cuando la IA se implementa sin criterios de equidad.</p>
-      </div>
-      <div class="card fade-in">
-        <div class="card-icon" style="background:#ffe4e6;">🔐</div>
-        <h3>Privacidad de menores</h3>
-        <p>El uso de plataformas de IA implica la recopilación de datos de estudiantes menores de edad, lo que genera preocupaciones sobre protección de datos personales.</p>
-      </div>
+      <div class="card fade-in"><div class="card-icon" style="background:#dbeafe">🏫</div><h3>Integración acelerada</h3><p>Las herramientas de IA se han incorporado masivamente en los centros educativos públicos sin lineamientos pedagógicos o éticos que guíen su uso.</p></div>
+      <div class="card fade-in"><div class="card-icon" style="background:#fef9c3">⚖️</div><h3>Vacío regulatorio</h3><p>Costa Rica carece de legislación específica sobre IA en educación. El MEP ha emitido circulares orientativas, pero sin fuerza normativa vinculante.</p></div>
+      <div class="card fade-in"><div class="card-icon" style="background:#dcfce7">🌐</div><h3>Brecha digital</h3><p>El acceso desigual a dispositivos e internet entre zonas urbanas y rurales profundiza desigualdades cuando la IA se implementa sin criterios de equidad.</p></div>
+      <div class="card fade-in"><div class="card-icon" style="background:#ffe4e6">🔐</div><h3>Privacidad de menores</h3><p>El uso de plataformas de IA implica recopilación de datos de estudiantes menores de edad, generando riesgos de protección de datos personales.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ── Metodología ─────────────────────────────────────────────── -->
-<section id="metodologia" style="background:var(--white);">
+<!-- Metodología -->
+<section id="metodologia" style="background:var(--white)">
   <div class="container">
     <div class="section-header fade-in">
       <div class="section-tag">Metodología</div>
       <h2>Enfoque mixto de investigación</h2>
-      <p>Combinamos métodos cuantitativos y cualitativos para obtener una comprensión integral del fenómeno.</p>
+      <p>Combinamos métodos cuantitativos y cualitativos para una comprensión integral del fenómeno.</p>
     </div>
-
     <div class="method-grid">
-      <div class="method-card fade-in" style="background:#f0f9ff; border-color:#bae6fd;">
-        <div class="icon">📊</div>
-        <h3>Cuantitativo</h3>
+      <div class="method-card fade-in" style="background:#f0f9ff;border-color:#bae6fd">
+        <div class="icon">📊</div><h3>Cuantitativo</h3>
         <p>Encuesta aplicada a estudiantes de la ULACIT:</p>
-        <ul>
-          <li>5 preguntas sobre uso de IA</li>
-          <li>Percepción de beneficios</li>
-          <li>Opinión sobre necesidad de regulación</li>
-          <li>Nivel de uso actual de herramientas IA</li>
-        </ul>
+        <ul><li>5 preguntas sobre uso de IA</li><li>Percepción de beneficios y riesgos</li><li>Opinión sobre regulación</li><li>Nivel de uso actual de herramientas IA</li></ul>
       </div>
-      <div class="method-card fade-in" style="background:#fdf4ff; border-color:#e9d5ff;">
-        <div class="icon">🎤</div>
-        <h3>Cualitativo</h3>
+      <div class="method-card fade-in" style="background:#fdf4ff;border-color:#e9d5ff">
+        <div class="icon">🎤</div><h3>Cualitativo</h3>
         <p>Entrevista a funcionario del MEP:</p>
-        <ul>
-          <li>Perspectiva institucional</li>
-          <li>Retos de integración tecnológica</li>
-          <li>Oportunidades para el aprendizaje</li>
-          <li>Necesidad de marcos regulatorios</li>
-        </ul>
+        <ul><li>Perspectiva institucional</li><li>Retos de integración tecnológica</li><li>Oportunidades para el aprendizaje</li><li>Importancia de marcos regulatorios</li></ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Encuesta ────────────────────────────────────────────────── -->
+<!-- Encuesta interactiva (poll) -->
 <section id="encuesta">
   <div class="container">
     <div class="section-header fade-in">
-      <div class="section-tag">Resultados</div>
-      <h2>¿Qué opinan los estudiantes?</h2>
-      <p>Encuesta aplicada a estudiantes universitarios de la ULACIT sobre el uso y la regulación de la IA en educación pública.</p>
+      <div class="section-tag">Encuesta interactiva</div>
+      <h2>¿Cuál es tu opinión?</h2>
+      <p>Selecciona una respuesta en cada pregunta y compara con los resultados reales de los estudiantes ULACIT.</p>
     </div>
-
-    <div class="survey-grid">
-
-      <!-- Q1: Frecuencia de uso -->
-      <div class="survey-card fade-in">
-        <p class="question">¿Con qué frecuencia usas herramientas de IA para estudiar?</p>
-        <div class="bar-row">
-          <div>
-            <div class="bar-label"><span>Diariamente</span><span>52%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:52%; background:#0039A6;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Varias veces por semana</span><span>32%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:32%; background:#3b82f6;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Ocasionalmente</span><span>12%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:12%; background:#93c5fd;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Nunca</span><span>4%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:4%; background:#bfdbfe;"></div></div>
-          </div>
+    <div class="poll-tabs fade-in">
+      <button class="poll-tab active" data-tab="0">Uso de IA</button>
+      <button class="poll-tab" data-tab="1">Regulación</button>
+      <button class="poll-tab" data-tab="2">Mayor beneficio</button>
+      <button class="poll-tab" data-tab="3">Mayor riesgo</button>
+      <button class="poll-tab" data-tab="4">Docentes</button>
+    </div>
+    <div id="poll-container" class="fade-in">
+      <!-- Q0 -->
+      <div class="poll-card active" data-q="0">
+        <p class="poll-question">¿Con qué frecuencia usas herramientas de IA para estudiar?</p>
+        <div class="poll-options">
+          <div class="poll-option" data-real="52" data-idx="0"><div class="poll-fill"></div><span class="opt-label">📅 Diariamente</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="32" data-idx="1"><div class="poll-fill"></div><span class="opt-label">📆 Varias veces por semana</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="12" data-idx="2"><div class="poll-fill"></div><span class="opt-label">🗓 Ocasionalmente</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="4"  data-idx="3"><div class="poll-fill"></div><span class="opt-label">🚫 Nunca</span><span class="opt-pct"></span></div>
         </div>
+        <button class="vote-btn">Votar y ver resultados</button>
+        <p class="poll-total"></p>
       </div>
-
-      <!-- Q2: Regulación necesaria -->
-      <div class="survey-card fade-in">
-        <p class="question">¿Crees que el MEP debe regular el uso de IA en las aulas?</p>
-        <div class="donut-wrap">
-          <svg class="donut-svg" width="120" height="120" viewBox="0 0 42 42">
-            <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#e2e8f0" stroke-width="5"/>
-            <!-- 91% = 91/100 * 100 of circumference 100 -->
-            <circle cx="21" cy="21" r="15.9155" fill="transparent"
-              stroke="#CE1126" stroke-width="5"
-              stroke-dasharray="91 9"
-              stroke-dashoffset="25"
-              stroke-linecap="round"/>
-            <text x="21" y="24" text-anchor="middle" font-size="7" font-weight="800" fill="#1a2540">91%</text>
-          </svg>
-          <div class="donut-legend">
-            <div class="legend-item"><span class="legend-dot" style="background:#CE1126;"></span>Sí, es necesario (91%)</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#e2e8f0;"></span>No es prioritario (9%)</div>
-          </div>
+      <!-- Q1 -->
+      <div class="poll-card" data-q="1">
+        <p class="poll-question">¿Crees que el MEP debe regular el uso de IA en las aulas?</p>
+        <div class="poll-options">
+          <div class="poll-option" data-real="91" data-idx="0"><div class="poll-fill"></div><span class="opt-label">✅ Sí, es necesario y urgente</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="6"  data-idx="1"><div class="poll-fill"></div><span class="opt-label">🤷 Solo orientaciones generales</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="3"  data-idx="2"><div class="poll-fill"></div><span class="opt-label">❌ No, debe ser libre</span><span class="opt-pct"></span></div>
         </div>
+        <button class="vote-btn">Votar y ver resultados</button>
+        <p class="poll-total"></p>
       </div>
-
-      <!-- Q3: Beneficios percibidos -->
-      <div class="survey-card fade-in">
-        <p class="question">¿Cuál consideras el mayor beneficio de la IA en educación?</p>
-        <div class="bar-row">
-          <div>
-            <div class="bar-label"><span>Aprendizaje personalizado</span><span>41%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:41%; background:#16a34a;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Acceso a información</span><span>28%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:28%; background:#4ade80;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Eficiencia en tareas</span><span>22%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:22%; background:#86efac;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Otro</span><span>9%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:9%; background:#bbf7d0;"></div></div>
-          </div>
+      <!-- Q2 -->
+      <div class="poll-card" data-q="2">
+        <p class="poll-question">¿Cuál consideras el mayor beneficio de la IA en educación?</p>
+        <div class="poll-options">
+          <div class="poll-option" data-real="41" data-idx="0"><div class="poll-fill"></div><span class="opt-label">🎯 Aprendizaje personalizado</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="28" data-idx="1"><div class="poll-fill"></div><span class="opt-label">🔍 Mayor acceso a información</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="22" data-idx="2"><div class="poll-fill"></div><span class="opt-label">⚡ Eficiencia en tareas</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="9"  data-idx="3"><div class="poll-fill"></div><span class="opt-label">🌱 Otro beneficio</span><span class="opt-pct"></span></div>
         </div>
+        <button class="vote-btn">Votar y ver resultados</button>
+        <p class="poll-total"></p>
       </div>
-
-      <!-- Q4: Preocupaciones -->
-      <div class="survey-card fade-in">
-        <p class="question">¿Cuál es tu mayor preocupación sobre la IA en la educación pública?</p>
-        <div class="bar-row">
-          <div>
-            <div class="bar-label"><span>Deshonestidad académica</span><span>38%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:38%; background:#d97706;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Privacidad de datos</span><span>29%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:29%; background:#f59e0b;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Desigualdad en acceso</span><span>23%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:23%; background:#fcd34d;"></div></div>
-          </div>
-          <div>
-            <div class="bar-label"><span>Dependencia tecnológica</span><span>10%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:10%; background:#fde68a;"></div></div>
-          </div>
+      <!-- Q3 -->
+      <div class="poll-card" data-q="3">
+        <p class="poll-question">¿Cuál es tu mayor preocupación sobre la IA en la educación pública?</p>
+        <div class="poll-options">
+          <div class="poll-option" data-real="38" data-idx="0"><div class="poll-fill"></div><span class="opt-label">📝 Deshonestidad académica</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="29" data-idx="1"><div class="poll-fill"></div><span class="opt-label">🔐 Privacidad de datos</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="23" data-idx="2"><div class="poll-fill"></div><span class="opt-label">📡 Desigualdad en el acceso</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="10" data-idx="3"><div class="poll-fill"></div><span class="opt-label">🤖 Dependencia tecnológica</span><span class="opt-pct"></span></div>
         </div>
+        <button class="vote-btn">Votar y ver resultados</button>
+        <p class="poll-total"></p>
       </div>
-
-      <!-- Q5: Formación docente -->
-      <div class="survey-card fade-in" style="grid-column: 1 / -1;">
-        <p class="question">¿Crees que los docentes de educación pública están preparados para integrar la IA de forma ética?</p>
-        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:.5rem;">
-          <div style="flex:1; min-width:200px;">
-            <div class="bar-label"><span>No, requieren formación urgente</span><span>63%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:63%; background:#CE1126;"></div></div>
-          </div>
-          <div style="flex:1; min-width:200px;">
-            <div class="bar-label"><span>Parcialmente preparados</span><span>28%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:28%; background:#f97316;"></div></div>
-          </div>
-          <div style="flex:1; min-width:200px;">
-            <div class="bar-label"><span>Sí, suficientemente preparados</span><span>9%</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:9%; background:#a3e635;"></div></div>
-          </div>
+      <!-- Q4 -->
+      <div class="poll-card" data-q="4">
+        <p class="poll-question">¿Crees que los docentes de educación pública están preparados para integrar la IA de forma ética?</p>
+        <div class="poll-options">
+          <div class="poll-option" data-real="63" data-idx="0"><div class="poll-fill"></div><span class="opt-label">❗ No, requieren formación urgente</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="28" data-idx="1"><div class="poll-fill"></div><span class="opt-label">🔄 Parcialmente preparados</span><span class="opt-pct"></span></div>
+          <div class="poll-option" data-real="9"  data-idx="2"><div class="poll-fill"></div><span class="opt-label">✅ Sí, suficientemente preparados</span><span class="opt-pct"></span></div>
         </div>
+        <button class="vote-btn">Votar y ver resultados</button>
+        <p class="poll-total"></p>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ── Acciones MEP ─────────────────────────────────────────────── -->
+<!-- Radar / Análisis visual -->
+<section id="radar-section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Análisis visual</div>
+      <h2>Mapa de brechas regulatorias</h2>
+      <p>Nivel de madurez actual de Costa Rica en cinco dimensiones clave para la regulación responsable de la IA en educación.</p>
+    </div>
+    <div class="radar-wrap fade-in">
+      <canvas id="radar-canvas" width="340" height="340"></canvas>
+      <div class="radar-legend">
+        <div class="rl-item"><div class="rl-dot" style="background:#CE1126"></div><div style="flex:1"><div class="rl-label">Marco legal</div><div class="rl-bar-track"><div class="rl-bar-fill" style="width:0%;background:#CE1126" data-w="15"></div></div></div><span class="rl-val">15%</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#f97316"></div><div style="flex:1"><div class="rl-label">Formación docente</div><div class="rl-bar-track"><div class="rl-bar-fill" style="width:0%;background:#f97316" data-w="28"></div></div></div><span class="rl-val">28%</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#eab308"></div><div style="flex:1"><div class="rl-label">Acceso equitativo</div><div class="rl-bar-track"><div class="rl-bar-fill" style="width:0%;background:#eab308" data-w="42"></div></div></div><span class="rl-val">42%</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#3b82f6"></div><div style="flex:1"><div class="rl-label">Protección de datos</div><div class="rl-bar-track"><div class="rl-bar-fill" style="width:0%;background:#3b82f6" data-w="22"></div></div></div><span class="rl-val">22%</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#8b5cf6"></div><div style="flex:1"><div class="rl-label">Política institucional</div><div class="rl-bar-track"><div class="rl-bar-fill" style="width:0%;background:#8b5cf6" data-w="35"></div></div></div><span class="rl-val">35%</span></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--muted);margin-top:1.5rem">Los porcentajes representan el nivel estimado de madurez/avance en cada dimensión según los hallazgos de la investigación.</p>
+  </div>
+</section>
+
+<!-- Timeline interactivo -->
 <section id="acciones">
   <div class="container">
     <div class="section-header fade-in">
       <div class="section-tag">Acciones institucionales</div>
       <h2>¿Qué ha hecho el MEP (2022–2026)?</h2>
-      <p>Principales iniciativas impulsadas por el Ministerio de Educación Pública en materia de IA.</p>
+      <p>Haz clic en cada hito para ver el detalle de la iniciativa.</p>
     </div>
-
     <div class="timeline">
-
       <div class="tl-item fade-in">
-        <div class="tl-dot" style="background:#dbeafe; color:#1d4ed8;">📋</div>
+        <div class="tl-dot" style="background:#dbeafe;color:#1d4ed8">📋</div>
         <div class="tl-body">
-          <div class="year">2022</div>
-          <h4>Plan de Transformación Digital Educativa</h4>
-          <p>El MEP incorpora la competencia digital como eje transversal del currículo y menciona la IA como tecnología emergente a integrar.</p>
+          <div class="tl-header"><div><div class="year">2022</div><h4>Plan de Transformación Digital Educativa</h4></div><div class="tl-toggle">▾</div></div>
+          <div class="tl-detail">El MEP incorpora la competencia digital como eje transversal del currículo y menciona la IA como tecnología emergente. Este plan sienta las bases para las iniciativas posteriores, aunque sin lineamientos específicos de uso.<br/><span class="tl-tag" style="background:#dbeafe;color:#1d4ed8">📘 Normativo</span></div>
         </div>
       </div>
-
       <div class="tl-item fade-in">
-        <div class="tl-dot" style="background:#dcfce7; color:#16a34a;">🤝</div>
+        <div class="tl-dot" style="background:#dcfce7;color:#16a34a">🤝</div>
         <div class="tl-body">
-          <div class="year">2023</div>
-          <h4>Alianza con universidades estatales</h4>
-          <p>Se firman convenios con la UCR y el TEC para capacitar a docentes en competencias digitales y uso responsable de herramientas de IA.</p>
+          <div class="tl-header"><div><div class="year">2023</div><h4>Alianza con universidades estatales</h4></div><div class="tl-toggle">▾</div></div>
+          <div class="tl-detail">Convenios firmados con la UCR y el TEC para capacitar docentes en competencias digitales y uso responsable de IA. El programa piloto benefició a más de 800 docentes en una primera etapa.<br/><span class="tl-tag" style="background:#dcfce7;color:#16a34a">🤝 Colaboración</span></div>
         </div>
       </div>
-
       <div class="tl-item fade-in">
-        <div class="tl-dot" style="background:#fef9c3; color:#ca8a04;">📝</div>
+        <div class="tl-dot" style="background:#fef9c3;color:#ca8a04">📝</div>
         <div class="tl-body">
-          <div class="year">2024</div>
-          <h4>Circular orientativa sobre IA generativa</h4>
-          <p>El MEP emite lineamientos no vinculantes sobre el uso de herramientas como ChatGPT en los procesos de evaluación estudiantil.</p>
+          <div class="tl-header"><div><div class="year">2024</div><h4>Circular orientativa sobre IA generativa</h4></div><div class="tl-toggle">▾</div></div>
+          <div class="tl-detail">El MEP emite lineamientos no vinculantes sobre el uso de herramientas como ChatGPT en procesos de evaluación. Establece criterios de uso responsable pero deja margen de interpretación a cada institución.<br/><span class="tl-tag" style="background:#fef9c3;color:#ca8a04">⚠️ Orientativo — no vinculante</span></div>
         </div>
       </div>
-
       <div class="tl-item fade-in">
-        <div class="tl-dot" style="background:#ffe4e6; color:#be123c;">🔍</div>
+        <div class="tl-dot" style="background:#ffe4e6;color:#be123c">🔍</div>
         <div class="tl-body">
-          <div class="year">2025</div>
-          <h4>Diagnóstico nacional de brecha digital</h4>
-          <p>Se realiza un mapeo de conectividad y acceso a dispositivos en centros educativos rurales, identificando zonas prioritarias de intervención.</p>
+          <div class="tl-header"><div><div class="year">2025</div><h4>Diagnóstico nacional de brecha digital</h4></div><div class="tl-toggle">▾</div></div>
+          <div class="tl-detail">Mapeo de conectividad y dispositivos en centros educativos rurales. Los resultados revelan que el 37% de las escuelas rurales no tienen acceso estable a internet, identificando zonas prioritarias de intervención.<br/><span class="tl-tag" style="background:#ffe4e6;color:#be123c">📊 Diagnóstico</span></div>
         </div>
       </div>
-
       <div class="tl-item fade-in">
-        <div class="tl-dot" style="background:#f3e8ff; color:#7c3aed;">🚀</div>
+        <div class="tl-dot" style="background:#f3e8ff;color:#7c3aed">🚀</div>
         <div class="tl-body">
-          <div class="year">2026</div>
-          <h4>Proyecto de política pública en elaboración</h4>
-          <p>Se trabaja en un borrador de política nacional de IA en educación, en coordinación con MICITT y organismos internacionales como UNESCO.</p>
+          <div class="tl-header"><div><div class="year">2026</div><h4>Política pública de IA en educación — en elaboración</h4></div><div class="tl-toggle">▾</div></div>
+          <div class="tl-detail">Borrador coordinado con MICITT, Defensoría de los Habitantes y organismos como UNESCO. Se espera la presentación formal en el segundo semestre de 2026 para consulta pública.<br/><span class="tl-tag" style="background:#f3e8ff;color:#7c3aed">⏳ En proceso</span></div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ── Retos ───────────────────────────────────────────────────── -->
+<!-- Retos con filtros -->
 <section id="retos">
   <div class="container">
     <div class="section-header fade-in">
       <div class="section-tag">Desafíos identificados</div>
       <h2>Principales retos y vacíos regulatorios</h2>
-      <p>Los hallazgos de la investigación revelan obstáculos estructurales que deben abordarse para una integración responsable de la IA.</p>
+      <p>Filtra por categoría para explorar los obstáculos específicos de la investigación.</p>
     </div>
-
+    <div class="filter-bar fade-in">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="legal">⚖️ Legal</button>
+      <button class="filter-btn" data-filter="pedagogico">📚 Pedagógico</button>
+      <button class="filter-btn" data-filter="tecnologico">💻 Tecnológico</button>
+      <button class="filter-btn" data-filter="social">🌍 Social</button>
+    </div>
     <div class="challenge-grid">
-
-      <div class="challenge-card fade-in" style="background:#fff7ed; border-color:#f97316;">
-        <h4>🏛️ Ausencia de marco legal específico</h4>
-        <p>No existe legislación costarricense que regule específicamente el uso de IA en contextos educativos, generando un vacío jurídico.</p>
-      </div>
-
-      <div class="challenge-card fade-in" style="background:#fef2f2; border-color:#ef4444;">
-        <h4>🔐 Protección de datos de menores</h4>
-        <p>Las plataformas de IA utilizadas en aulas recopilan datos de estudiantes menores sin protocolos claros de consentimiento y protección.</p>
-      </div>
-
-      <div class="challenge-card fade-in" style="background:#f0fdf4; border-color:#22c55e;">
-        <h4>📚 Formación docente insuficiente</h4>
-        <p>Más del 63% de los encuestados percibe que los docentes no cuentan con la formación necesaria para incorporar la IA de manera ética y pedagógica.</p>
-      </div>
-
-      <div class="challenge-card fade-in" style="background:#eff6ff; border-color:#3b82f6;">
-        <h4>📡 Brecha de acceso digital</h4>
-        <p>La desigualdad en conectividad y dispositivos entre zonas urbanas y rurales limita una implementación equitativa de tecnologías de IA.</p>
-      </div>
-
-      <div class="challenge-card fade-in" style="background:#fdf4ff; border-color:#a855f7;">
-        <h4>🎯 Integridad académica</h4>
-        <p>El uso no regulado de IA generativa en evaluaciones amenaza la validez de las calificaciones y el desarrollo de competencias críticas.</p>
-      </div>
-
-      <div class="challenge-card fade-in" style="background:#fffbeb; border-color:#eab308;">
-        <h4>🌐 Dependencia de plataformas privadas</h4>
-        <p>El sistema educativo depende de herramientas de empresas extranjeras sin auditoría pública, lo que plantea riesgos de soberanía tecnológica.</p>
-      </div>
-
+      <div class="challenge-card fade-in" data-cat="legal" style="background:#fff7ed;border-color:#f97316"><h4>🏛️ Ausencia de marco legal específico</h4><p>No existe legislación costarricense que regule específicamente el uso de IA en contextos educativos, generando un vacío jurídico.</p><span class="c-badge" style="background:#fff7ed;color:#ea580c;border:1px solid #fed7aa">⚖️ Legal</span></div>
+      <div class="challenge-card fade-in" data-cat="social" style="background:#fef2f2;border-color:#ef4444"><h4>🔐 Protección de datos de menores</h4><p>Las plataformas de IA recopilan datos de estudiantes menores sin protocolos claros de consentimiento y protección efectiva.</p><span class="c-badge" style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca">🌍 Social</span></div>
+      <div class="challenge-card fade-in" data-cat="pedagogico" style="background:#f0fdf4;border-color:#22c55e"><h4>📚 Formación docente insuficiente</h4><p>El 63% percibe que los docentes no tienen la formación necesaria para incorporar la IA de manera ética y pedagógica.</p><span class="c-badge" style="background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0">📚 Pedagógico</span></div>
+      <div class="challenge-card fade-in" data-cat="tecnologico" style="background:#eff6ff;border-color:#3b82f6"><h4>📡 Brecha de acceso digital</h4><p>La desigualdad en conectividad entre zonas urbanas y rurales limita una implementación equitativa de tecnologías de IA.</p><span class="c-badge" style="background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe">💻 Tecnológico</span></div>
+      <div class="challenge-card fade-in" data-cat="pedagogico" style="background:#fdf4ff;border-color:#a855f7"><h4>🎯 Integridad académica</h4><p>El uso no regulado de IA generativa en evaluaciones amenaza la validez de las calificaciones y el desarrollo de competencias críticas.</p><span class="c-badge" style="background:#fdf4ff;color:#9333ea;border:1px solid #e9d5ff">📚 Pedagógico</span></div>
+      <div class="challenge-card fade-in" data-cat="legal" style="background:#fffbeb;border-color:#eab308"><h4>🌐 Dependencia de plataformas privadas</h4><p>El sistema educativo depende de herramientas de empresas extranjeras sin auditoría pública, planteando riesgos de soberanía tecnológica.</p><span class="c-badge" style="background:#fffbeb;color:#ca8a04;border:1px solid #fde68a">⚖️ Legal</span></div>
     </div>
   </div>
 </section>
 
-<!-- ── Recomendaciones ─────────────────────────────────────────── -->
+<!-- Recomendaciones accordion -->
 <section id="recomendaciones">
   <div class="container">
     <div class="section-header fade-in">
       <div class="section-tag">Propuesta</div>
       <h2>Recomendaciones de política pública</h2>
-      <p>Acciones concretas que el MEP y el Estado costarricense deben implementar para regular el uso de la IA de forma ética, equitativa y pedagógicamente fundamentada.</p>
+      <p>Haz clic en cada propuesta para ver el detalle de implementación.</p>
     </div>
-
     <div class="rec-list">
-
-      <div class="rec-item fade-in">
-        <div class="rec-num">1</div>
-        <div>
-          <h4>Emitir una política nacional de IA en educación con carácter vinculante</h4>
-          <p>Desarrollar, en coordinación con MICITT, Defensoría y organismos internacionales, un marco regulatorio con fuerza legal que establezca estándares mínimos de uso, privacidad y ética.</p>
-        </div>
-      </div>
-
-      <div class="rec-item fade-in">
-        <div class="rec-num">2</div>
-        <div>
-          <h4>Crear un programa nacional de formación docente en IA</h4>
-          <p>Incluir competencias en inteligencia artificial, pensamiento crítico digital y uso ético de herramientas tecnológicas en la formación inicial y continua del magisterio.</p>
-        </div>
-      </div>
-
-      <div class="rec-item fade-in">
-        <div class="rec-num">3</div>
-        <div>
-          <h4>Garantizar acceso equitativo a la tecnología</h4>
-          <p>Ampliar el Programa Nacional de Informática Educativa (PRONIE) para asegurar conectividad y dispositivos en zonas rurales y colegios de menor índice de desarrollo.</p>
-        </div>
-      </div>
-
-      <div class="rec-item fade-in">
-        <div class="rec-num">4</div>
-        <div>
-          <h4>Establecer protocolos de protección de datos estudiantiles</h4>
-          <p>Exigir auditorías de privacidad a todas las plataformas de IA utilizadas en centros educativos y garantizar el cumplimiento de la Ley de Protección de la Persona frente al Tratamiento de sus Datos Personales.</p>
-        </div>
-      </div>
-
-      <div class="rec-item fade-in">
-        <div class="rec-num">5</div>
-        <div>
-          <h4>Implementar lineamientos claros sobre integridad académica y uso de IA</h4>
-          <p>Actualizar los reglamentos de evaluación de los aprendizajes para contemplar el uso de IA generativa, distinguiendo usos permitidos de prácticas consideradas deshonestidad académica.</p>
-        </div>
-      </div>
-
+      <div class="rec-item fade-in"><div class="rec-header"><div class="rec-num">1</div><div class="rec-title">Emitir una política nacional de IA en educación con carácter vinculante</div><span class="rec-priority" style="background:#fef2f2;color:#dc2626">🔴 Alta</span><span class="rec-chevron">▾</span></div><div class="rec-body"><div class="rec-body-inner">Desarrollar, en coordinación con MICITT, Defensoría y organismos internacionales, un marco regulatorio con fuerza legal que establezca estándares mínimos de uso, privacidad y ética. La política debe incluir mecanismos de evaluación y actualización periódica.</div></div></div>
+      <div class="rec-item fade-in"><div class="rec-header"><div class="rec-num">2</div><div class="rec-title">Crear un programa nacional de formación docente en IA</div><span class="rec-priority" style="background:#fef2f2;color:#dc2626">🔴 Alta</span><span class="rec-chevron">▾</span></div><div class="rec-body"><div class="rec-body-inner">Incluir competencias en IA, pensamiento crítico digital y uso ético en la formación inicial y continua del magisterio. El programa debe incluir certificación oficial y actualizarse anualmente.</div></div></div>
+      <div class="rec-item fade-in"><div class="rec-header"><div class="rec-num">3</div><div class="rec-title">Garantizar acceso equitativo a la tecnología</div><span class="rec-priority" style="background:#fff7ed;color:#c2410c">🟠 Media-Alta</span><span class="rec-chevron">▾</span></div><div class="rec-body"><div class="rec-body-inner">Ampliar el PRONIE para asegurar conectividad y dispositivos en zonas rurales y colegios de menor índice de desarrollo. Se deben priorizar las 47 comunidades identificadas con mayor brecha en el diagnóstico 2025.</div></div></div>
+      <div class="rec-item fade-in"><div class="rec-header"><div class="rec-num">4</div><div class="rec-title">Establecer protocolos de protección de datos estudiantiles</div><span class="rec-priority" style="background:#fff7ed;color:#c2410c">🟠 Media-Alta</span><span class="rec-chevron">▾</span></div><div class="rec-body"><div class="rec-body-inner">Exigir auditorías de privacidad a todas las plataformas de IA en centros educativos. Ninguna plataforma que recopile datos de menores podrá operar sin certificación previa del MEP conforme a la Ley 8968.</div></div></div>
+      <div class="rec-item fade-in"><div class="rec-header"><div class="rec-num">5</div><div class="rec-title">Actualizar reglamentos de evaluación para contemplar la IA</div><span class="rec-priority" style="background:#f0fdf4;color:#16a34a">🟢 Media</span><span class="rec-chevron">▾</span></div><div class="rec-body"><div class="rec-body-inner">Revisar el Reglamento de Evaluación de los Aprendizajes para distinguir usos permitidos de prácticas de deshonestidad académica. Cada institución debe contar con una política interna validada por el MEP.</div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ── Equipo ───────────────────────────────────────────────────── -->
-<section id="equipo">
+<!-- ── Actores y Participación ─────────────────────────────────── -->
+<section id="actores">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Ecosistema de actores</div>
+      <h2>¿Quién participa y cómo?</h2>
+      <p>La regulación responsable de la IA en educación requiere la coordinación de cuatro actores clave. Selecciona cada uno para explorar su rol, mecanismos de participación y aportes posibles.</p>
+    </div>
+
+    <!-- Actor tabs -->
+    <div class="actor-tabs fade-in">
+      <button class="actor-tab active" data-actor="mep" style="border-color:#0039A6;background:#0039A6;color:#fff">
+        <span class="tab-dot" style="background:#fff"></span>MEP
+      </button>
+      <button class="actor-tab" data-actor="civil" style="">
+        <span class="tab-dot" style="background:#16a34a"></span>Sociedad Civil
+      </button>
+      <button class="actor-tab" data-actor="privado" style="">
+        <span class="tab-dot" style="background:#f97316"></span>Sector Privado
+      </button>
+      <button class="actor-tab" data-actor="academia" style="">
+        <span class="tab-dot" style="background:#8b5cf6"></span>Academia
+      </button>
+      <button class="actor-tab" data-actor="internacional" style="">
+        <span class="tab-dot" style="background:#0891b2"></span>Organismos Internacionales
+      </button>
+    </div>
+
+    <!-- MEP panel -->
+    <div class="actor-panel active fade-in" data-panel="mep">
+      <div class="actor-hero" style="background:#eff6ff;border-color:#bfdbfe">
+        <div class="big-icon">🏛️</div>
+        <h3>Ministerio de Educación Pública</h3>
+        <div class="sub">Ente rector del sistema educativo costarricense</div>
+        <span class="role-pill" style="background:#0039A6;color:#fff">Regulador principal</span>
+        <p>El MEP es el actor central de la gobernanza de la IA en educación pública. Tiene la potestad de emitir normativas vinculantes, diseñar el currículo, certificar plataformas tecnológicas y coordinar con otros entes del Estado. Su rol es irremplazable como articulador del sistema.</p>
+      </div>
+      <div class="actor-details">
+        <div class="detail-card">
+          <h4>📋 Mecanismos de acción</h4>
+          <ul>
+            <li>Emisión de política pública de IA con fuerza de ley</li>
+            <li>Actualización del Reglamento de Evaluación de los Aprendizajes</li>
+            <li>Certificación previa de plataformas IA que operen en aulas</li>
+            <li>Diseño de programas de formación docente en IA</li>
+            <li>Coordinación interministerial con MICITT y Defensoría</li>
+          </ul>
+        </div>
+        <div class="detail-card">
+          <h4>💰 Recursos e inversión pública</h4>
+          <ul>
+            <li>Ampliación del presupuesto del PRONIE</li>
+            <li>Fondos para conectividad en zonas rurales</li>
+            <li>Contratos con plataformas previa auditoría de privacidad</li>
+          </ul>
+          <div class="invest-meter">
+            <div class="invest-label"><span>Nivel de intervención institucional requerido</span><span>Muy alto</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#0039A6" data-w="92"></div></div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <h4>⚠️ Desafío actual</h4>
+          <ul>
+            <li>Falta de voluntad política para pasar de lineamientos orientativos a normativa vinculante</li>
+            <li>Burocracia institucional ralentiza la adaptación tecnológica</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sociedad Civil panel -->
+    <div class="actor-panel" data-panel="civil">
+      <div class="actor-hero" style="background:#f0fdf4;border-color:#bbf7d0">
+        <div class="big-icon">🤝</div>
+        <h3>Sociedad Civil</h3>
+        <div class="sub">ONGs, asociaciones de padres, estudiantes, comunidades y sindicatos docentes</div>
+        <span class="role-pill" style="background:#16a34a;color:#fff">Voz ciudadana y fiscalización</span>
+        <p>La sociedad civil representa a las personas más directamente afectadas por las decisiones sobre IA en la educación. Su participación garantiza que las políticas reflejen las necesidades reales de estudiantes, familias y docentes, y que la implementación sea vigilada por actores independientes del Estado.</p>
+      </div>
+      <div class="actor-details">
+        <div class="detail-card">
+          <h4>🗣️ Formas de participación</h4>
+          <ul>
+            <li>Consultas públicas durante la elaboración de políticas</li>
+            <li>Representación en comités de seguimiento y evaluación</li>
+            <li>Denuncias ciudadanas ante Defensoría de los Habitantes</li>
+            <li>Campañas de alfabetización digital comunitaria</li>
+            <li>Sindicatos docentes en mesas de negociación con el MEP</li>
+          </ul>
+        </div>
+        <div class="detail-card">
+          <h4>📢 Organizaciones clave en CR</h4>
+          <ul>
+            <li>ANDE / APSE / SEC — sindicatos del magisterio</li>
+            <li>Asociaciones de Desarrollo Comunal</li>
+            <li>Fundación Omar Dengo — educación y tecnología</li>
+            <li>Consejo Nacional de Rectores (CONARE)</li>
+          </ul>
+          <div class="invest-meter">
+            <div class="invest-label"><span>Potencial de incidencia política</span><span>Alto</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#16a34a" data-w="75"></div></div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <h4>🌱 Oportunidad</h4>
+          <ul>
+            <li>Integrar veedurías ciudadanas en los comités de revisión de plataformas IA aprobadas por el MEP</li>
+            <li>Crear un observatorio de IA en educación gestionado por la sociedad civil</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sector Privado panel -->
+    <div class="actor-panel" data-panel="privado">
+      <div class="actor-hero" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="big-icon">🏢</div>
+        <h3>Sector Privado</h3>
+        <div class="sub">Empresas tecnológicas, industria nacional, fundaciones corporativas e inversión extranjera directa</div>
+        <span class="role-pill" style="background:#f97316;color:#fff">Proveedor e inversor</span>
+        <p>El sector privado puede ser un aliado estratégico en la modernización tecnológica del sistema educativo, aportando infraestructura, plataformas, financiamiento y talento humano especializado — siempre bajo marcos regulatorios que prevengan conflictos de interés y garanticen la equidad.</p>
+      </div>
+      <div class="actor-details">
+        <div class="detail-card">
+          <h4>💼 Modalidades de inversión</h4>
+          <ul>
+            <li><strong>Alianzas Público-Privadas (APP):</strong> infraestructura de conectividad en zonas rurales</li>
+            <li><strong>Responsabilidad Social Empresarial (RSE):</strong> donación de dispositivos y capacitación</li>
+            <li><strong>Licencias educativas subsidiadas:</strong> plataformas IA a bajo costo o gratuitas para centros públicos</li>
+            <li><strong>Becas y fondos de innovación:</strong> para docentes y estudiantes destacados en competencias digitales</li>
+          </ul>
+        </div>
+        <div class="detail-card">
+          <h4>📊 Estimación de inversión requerida</h4>
+          <div class="invest-meter" style="margin-top:.25rem">
+            <div class="invest-label"><span>Conectividad rural (APP)</span><span>Alto</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#f97316" data-w="85"></div></div>
+          </div>
+          <div class="invest-meter" style="margin-top:.6rem">
+            <div class="invest-label"><span>Licencias educativas (RSE)</span><span>Medio</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#fbbf24" data-w="55"></div></div>
+          </div>
+          <div class="invest-meter" style="margin-top:.6rem">
+            <div class="invest-label"><span>Formación y becas</span><span>Medio-bajo</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#a3e635" data-w="38"></div></div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <h4>⚠️ Condiciones indispensables</h4>
+          <ul>
+            <li>Auditoría de privacidad obligatoria antes de operar en aulas</li>
+            <li>Prohibición de uso de datos estudiantiles con fines comerciales</li>
+            <li>Participación sujeta a supervisión de la Defensoría y MEP</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Academia panel -->
+    <div class="actor-panel" data-panel="academia">
+      <div class="actor-hero" style="background:#fdf4ff;border-color:#e9d5ff">
+        <div class="big-icon">🎓</div>
+        <h3>Academia e Instituciones de Educación Superior</h3>
+        <div class="sub">UCR, TEC, UNED, ULACIT y otras universidades públicas y privadas</div>
+        <span class="role-pill" style="background:#8b5cf6;color:#fff">Generador de conocimiento</span>
+        <p>Las universidades son actores fundamentales en la generación de evidencia para el diseño de políticas, la formación de docentes con competencias en IA y la evaluación independiente de la implementación de herramientas tecnológicas en el sistema educativo.</p>
+      </div>
+      <div class="actor-details">
+        <div class="detail-card">
+          <h4>🔬 Contribuciones clave</h4>
+          <ul>
+            <li>Investigación aplicada sobre impacto de la IA en aprendizaje</li>
+            <li>Programas de certificación docente en competencias digitales</li>
+            <li>Asesoría técnica al MEP en diseño de políticas</li>
+            <li>Evaluación independiente de plataformas IA utilizadas en aulas</li>
+            <li>Formación de formadores: docentes que enseñan a otros docentes</li>
+          </ul>
+        </div>
+        <div class="detail-card">
+          <h4>🤝 Convenios activos (2023–2026)</h4>
+          <ul>
+            <li>UCR – TEC: Programa piloto de capacitación docente (800+ beneficiados)</li>
+            <li>UNED: Diseño de módulos de educación a distancia en IA</li>
+            <li>ULACIT: Investigación sobre percepción estudiantil (este estudio)</li>
+          </ul>
+          <div class="invest-meter">
+            <div class="invest-label"><span>Alcance del aporte académico</span><span>Muy alto</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#8b5cf6" data-w="80"></div></div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <h4>🌱 Propuesta de expansión</h4>
+          <ul>
+            <li>Crear un observatorio nacional de IA en educación con sede en el CONARE</li>
+            <li>Publicación anual de un informe de situación sobre IA en educación pública costarricense</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Internacional panel -->
+    <div class="actor-panel" data-panel="internacional">
+      <div class="actor-hero" style="background:#ecfeff;border-color:#a5f3fc">
+        <div class="big-icon">🌍</div>
+        <h3>Organismos Internacionales</h3>
+        <div class="sub">UNESCO, UNICEF, BID, OEA, OCDE y cooperación bilateral</div>
+        <span class="role-pill" style="background:#0891b2;color:#fff">Marco referencial y financiamiento</span>
+        <p>Los organismos internacionales proveen marcos normativos de referencia, mejores prácticas globales, asistencia técnica especializada y fuentes de financiamiento no reembolsable para la modernización educativa. Su participación legitima las políticas nacionales ante estándares internacionales.</p>
+      </div>
+      <div class="actor-details">
+        <div class="detail-card">
+          <h4>📚 Marcos de referencia aplicables</h4>
+          <ul>
+            <li><strong>UNESCO:</strong> Recomendación sobre ética de la IA (2021) y Marco K-12 de competencias IA</li>
+            <li><strong>OCDE:</strong> Principios de la OCDE sobre IA (2019) — adoptados por Costa Rica</li>
+            <li><strong>BID:</strong> Marco de competencias digitales para América Latina</li>
+            <li><strong>UE:</strong> Ley de IA europea como modelo regulatorio de referencia</li>
+          </ul>
+        </div>
+        <div class="detail-card">
+          <h4>💵 Fuentes de financiamiento disponibles</h4>
+          <ul>
+            <li>Fondo de cooperación técnica BID — educación y tecnología</li>
+            <li>Programa IICA de transformación digital rural</li>
+            <li>Cooperación bilateral: Unión Europea, Corea del Sur, España</li>
+            <li>Fondos del Programa de Naciones Unidas para el Desarrollo (PNUD)</li>
+          </ul>
+          <div class="invest-meter">
+            <div class="invest-label"><span>Disponibilidad de apoyo técnico-financiero</span><span>Alto</span></div>
+            <div class="invest-track"><div class="invest-fill" style="background:#0891b2" data-w="70"></div></div>
+          </div>
+        </div>
+        <div class="detail-card">
+          <h4>🎯 Condición de acceso</h4>
+          <ul>
+            <li>Costa Rica debe demostrar un marco regulatorio nacional coherente para acceder a fondos</li>
+            <li>Los acuerdos requieren reportes de impacto y transparencia en el uso de recursos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ecosystem map -->
+    <div class="ecosystem-wrap fade-in">
+      <h3>Mapa de relaciones entre actores</h3>
+      <svg id="eco-svg" viewBox="0 0 700 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- connection lines -->
+        <line x1="350" y1="175" x2="350" y2="60"  class="eco-line" stroke="#0039A6"/>
+        <line x1="350" y1="175" x2="200" y2="290" class="eco-line" stroke="#16a34a"/>
+        <line x1="350" y1="175" x2="500" y2="290" class="eco-line" stroke="#f97316"/>
+        <line x1="350" y1="175" x2="130" y2="130" class="eco-line" stroke="#8b5cf6"/>
+        <line x1="350" y1="175" x2="570" y2="130" class="eco-line" stroke="#0891b2"/>
+        <!-- cross links -->
+        <line x1="130" y1="130" x2="200" y2="290" class="eco-line" stroke="#aaa" stroke-dasharray="3 5"/>
+        <line x1="570" y1="130" x2="500" y2="290" class="eco-line" stroke="#aaa" stroke-dasharray="3 5"/>
+        <line x1="350"  y1="60" x2="130" y2="130" class="eco-line" stroke="#aaa" stroke-dasharray="3 5"/>
+        <line x1="350"  y1="60" x2="570" y2="130" class="eco-line" stroke="#aaa" stroke-dasharray="3 5"/>
+
+        <!-- MEP center -->
+        <g class="eco-node" data-actor="mep">
+          <circle cx="350" cy="175" r="52" fill="#0039A6" opacity=".9"/>
+          <text x="350" y="170" class="eco-label" fill="#fff">🏛️ MEP</text>
+          <text x="350" y="184" class="eco-sub" fill="rgba(255,255,255,.8)">Ente rector</text>
+        </g>
+        <!-- Sociedad Civil -->
+        <g class="eco-node" data-actor="civil">
+          <circle cx="200" cy="310" r="44" fill="#16a34a" opacity=".88"/>
+          <text x="200" y="305" class="eco-label" fill="#fff">🤝</text>
+          <text x="200" y="318" class="eco-sub" fill="rgba(255,255,255,.85)">Sociedad Civil</text>
+        </g>
+        <!-- Sector privado -->
+        <g class="eco-node" data-actor="privado">
+          <circle cx="500" cy="310" r="44" fill="#f97316" opacity=".88"/>
+          <text x="500" y="305" class="eco-label" fill="#fff">🏢</text>
+          <text x="500" y="318" class="eco-sub" fill="rgba(255,255,255,.85)">Sector Privado</text>
+        </g>
+        <!-- Academia -->
+        <g class="eco-node" data-actor="academia">
+          <circle cx="120" cy="120" r="42" fill="#8b5cf6" opacity=".88"/>
+          <text x="120" y="114" class="eco-label" fill="#fff">🎓</text>
+          <text x="120" y="127" class="eco-sub" fill="rgba(255,255,255,.85)">Academia</text>
+        </g>
+        <!-- Internacional -->
+        <g class="eco-node" data-actor="internacional">
+          <circle cx="580" cy="120" r="42" fill="#0891b2" opacity=".88"/>
+          <text x="580" y="114" class="eco-label" fill="#fff">🌍</text>
+          <text x="580" y="127" class="eco-sub" fill="rgba(255,255,255,.85)">Internacional</text>
+        </g>
+
+        <!-- edge labels -->
+        <text x="298" y="105" class="eco-sub" fill="#0039A6" font-weight="700">Política</text>
+        <text x="248" y="248" class="eco-sub" fill="#16a34a" font-weight="700">Fiscalización</text>
+        <text x="428" y="248" class="eco-sub" fill="#f97316" font-weight="700">Inversión</text>
+        <text x="192" y="148" class="eco-sub" fill="#8b5cf6" font-weight="700">Investigación</text>
+        <text x="468" y="143" class="eco-sub" fill="#0891b2" font-weight="700">Financiamiento</text>
+      </svg>
+    </div>
+
+    <!-- How to participate CTA -->
+    <div class="cta-grid fade-in">
+      <div class="cta-card">
+        <div class="cta-icon">🏛️</div>
+        <h4>Si eres funcionario/a del MEP</h4>
+        <p>Impulsa la transición de lineamientos orientativos a normativa vinculante con fuerza legal.</p>
+        <span class="cta-badge" style="background:#dbeafe;color:#1d4ed8">Normativa</span>
+      </div>
+      <div class="cta-card">
+        <div class="cta-icon">👩‍👩‍👧‍👦</div>
+        <h4>Si eres docente, padre o madre</h4>
+        <p>Participa en las consultas públicas del MEP y exige transparencia en las plataformas usadas en el aula.</p>
+        <span class="cta-badge" style="background:#dcfce7;color:#16a34a">Participación ciudadana</span>
+      </div>
+      <div class="cta-card">
+        <div class="cta-icon">💼</div>
+        <h4>Si representas al sector privado</h4>
+        <p>Propón alianzas público-privadas para conectividad rural o programas de RSE con licencias educativas subsidiadas.</p>
+        <span class="cta-badge" style="background:#fff7ed;color:#c2410c">Inversión / RSE</span>
+      </div>
+      <div class="cta-card">
+        <div class="cta-icon">🎓</div>
+        <h4>Si eres investigador/a o estudiante</h4>
+        <p>Contribuye al observatorio nacional de IA en educación y genera evidencia para mejores políticas públicas.</p>
+        <span class="cta-badge" style="background:#fdf4ff;color:#7c3aed">Investigación</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Quiz -->
+<section id="quiz">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag">Autoevaluación</div>
+      <h2>¿Qué sabes sobre la IA en la educación costarricense?</h2>
+      <p>Pon a prueba lo que aprendiste con este quiz de 5 preguntas.</p>
+    </div>
+    <div class="quiz-wrap fade-in">
+      <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-fill" style="width:0%"></div></div>
+      <!-- Q1 -->
+      <div class="quiz-step active" data-step="0">
+        <p class="quiz-q">1. ¿Qué porcentaje de estudiantes ULACIT encuestados apoyó algún tipo de regulación del MEP sobre la IA?</p>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>68%</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>75%</div>
+          <div class="quiz-opt" data-correct="true"><span class="opt-icon"></span>91%</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>52%</div>
+        </div>
+        <div class="quiz-feedback ok">✅ ¡Correcto! El 91% apoya algún tipo de regulación, reflejando una preocupación generalizada por la falta de marcos normativos.</div>
+        <div class="quiz-feedback fail">❌ Incorrecto. El porcentaje correcto es 91% — una cifra muy alta que evidencia la urgencia del tema.</div>
+        <div class="quiz-nav"><span class="quiz-count">Pregunta 1 de 5</span><button class="btn-quiz btn-next" disabled>Siguiente →</button></div>
+      </div>
+      <!-- Q2 -->
+      <div class="quiz-step" data-step="1">
+        <p class="quiz-q">2. ¿En qué año el MEP emitió una circular orientativa (no vinculante) sobre IA generativa en evaluaciones?</p>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>2022</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>2023</div>
+          <div class="quiz-opt" data-correct="true"><span class="opt-icon"></span>2024</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>2025</div>
+        </div>
+        <div class="quiz-feedback ok">✅ ¡Correcto! En 2024 el MEP emitió lineamientos orientativos, sin fuerza normativa vinculante para los centros educativos.</div>
+        <div class="quiz-feedback fail">❌ Incorrecto. Fue en 2024 cuando el MEP emitió su primera circular orientativa sobre IA generativa.</div>
+        <div class="quiz-nav"><span class="quiz-count">Pregunta 2 de 5</span><button class="btn-quiz btn-next" disabled>Siguiente →</button></div>
+      </div>
+      <!-- Q3 -->
+      <div class="quiz-step" data-step="2">
+        <p class="quiz-q">3. ¿Cuál fue la mayor preocupación de los estudiantes sobre la IA en la educación pública?</p>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-correct="true"><span class="opt-icon"></span>Deshonestidad académica (38%)</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>Privacidad de datos (29%)</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>Desigualdad en el acceso (23%)</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>Dependencia tecnológica (10%)</div>
+        </div>
+        <div class="quiz-feedback ok">✅ ¡Correcto! La deshonestidad académica fue la preocupación más citada con un 38%.</div>
+        <div class="quiz-feedback fail">❌ Incorrecto. La mayor preocupación fue la deshonestidad académica (38%), seguida por la privacidad de datos (29%).</div>
+        <div class="quiz-nav"><span class="quiz-count">Pregunta 3 de 5</span><button class="btn-quiz btn-next" disabled>Siguiente →</button></div>
+      </div>
+      <!-- Q4 -->
+      <div class="quiz-step" data-step="3">
+        <p class="quiz-q">4. ¿Qué metodología de investigación utilizó este estudio?</p>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>Solo cuantitativa (encuestas)</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>Solo cualitativa (entrevistas)</div>
+          <div class="quiz-opt" data-correct="true"><span class="opt-icon"></span>Mixta: encuesta ULACIT + entrevista MEP</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>Análisis de documentos oficiales</div>
+        </div>
+        <div class="quiz-feedback ok">✅ ¡Correcto! El estudio combina encuesta cuantitativa a estudiantes ULACIT y entrevista cualitativa a un funcionario del MEP.</div>
+        <div class="quiz-feedback fail">❌ Incorrecto. La investigación utilizó un enfoque mixto: encuesta (cuantitativo) + entrevista al MEP (cualitativo).</div>
+        <div class="quiz-nav"><span class="quiz-count">Pregunta 4 de 5</span><button class="btn-quiz btn-next" disabled>Siguiente →</button></div>
+      </div>
+      <!-- Q5 -->
+      <div class="quiz-step" data-step="4">
+        <p class="quiz-q">5. ¿Qué porcentaje de estudiantes percibe que los docentes NO están listos para integrar la IA de forma ética?</p>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>42%</div>
+          <div class="quiz-opt" data-correct="true"><span class="opt-icon"></span>63%</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>78%</div>
+          <div class="quiz-opt" data-correct="false"><span class="opt-icon"></span>51%</div>
+        </div>
+        <div class="quiz-feedback ok">✅ ¡Correcto! El 63% considera que los docentes requieren formación urgente en competencias digitales y uso ético de la IA.</div>
+        <div class="quiz-feedback fail">❌ Incorrecto. El 63% señaló que los docentes no están preparados y necesitan formación urgente.</div>
+        <div class="quiz-nav"><span class="quiz-count">Pregunta 5 de 5</span><button class="btn-quiz btn-next" disabled>Ver resultados →</button></div>
+      </div>
+      <!-- Result -->
+      <div class="quiz-step" data-step="5">
+        <div class="quiz-result">
+          <div class="score" id="quiz-score">0/5</div>
+          <h3 id="quiz-verdict"></h3>
+          <p id="quiz-desc"></p>
+          <div class="bar-score"><div class="bar-score-fill" id="quiz-bar" style="width:0%"></div></div>
+          <button class="restart-btn" id="quiz-restart">↺ Reiniciar quiz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Equipo -->
+<section id="equipo" style="background:var(--light)">
   <div class="container">
     <div class="section-header fade-in">
       <div class="section-tag">Investigadores</div>
       <h2>Equipo de investigación</h2>
       <p>Seminario de Investigación: Costa Rica y el Mundo · Docente: Larissa Alvarez Lobo</p>
     </div>
-
     <div class="team-grid">
-      <div class="member-card fade-in">
-        <div class="member-avatar" style="background:#dbeafe;">👩</div>
-        <h4>Denisse Thomas Mora</h4>
-        <p>Investigadora</p>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar" style="background:#dcfce7;">👨</div>
-        <h4>Julián Monge Araya</h4>
-        <p>Investigador</p>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar" style="background:#fdf4ff;">👩</div>
-        <h4>María Celeste Dávila Rivera</h4>
-        <p>Investigadora</p>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar" style="background:#fff7ed;">👨</div>
-        <h4>Emanuel Retana Chavarro</h4>
-        <p>Investigador</p>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar" style="background:#fef2f2;">👨</div>
-        <h4>Oscar Acevedo Nassar</h4>
-        <p>Investigador</p>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar" style="background:#fffbeb;">👨</div>
-        <h4>Diego Arce Quirós</h4>
-        <p>Investigador</p>
+      <div class="member-card fade-in"><div class="member-avatar" style="background:#dbeafe">👩</div><h4>Denisse Thomas Mora</h4><p>Investigadora</p></div>
+      <div class="member-card fade-in"><div class="member-avatar" style="background:#dcfce7">👨</div><h4>Julián Monge Araya</h4><p>Investigador</p></div>
+      <div class="member-card fade-in"><div class="member-avatar" style="background:#fdf4ff">👩</div><h4>María Celeste Dávila Rivera</h4><p>Investigadora</p></div>
+      <div class="member-card fade-in"><div class="member-avatar" style="background:#fff7ed">👨</div><h4>Emanuel Retana Chavarro</h4><p>Investigador</p></div>
+      <div class="member-card fade-in"><div class="member-avatar" style="background:#fef2f2">👨</div><h4>Oscar Acevedo Nassar</h4><p>Investigador</p></div>
+      <div class="member-card fade-in"><div class="member-avatar" style="background:#fffbeb">👨</div><h4>Diego Arce Quirós</h4><p>Investigador</p></div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem" class="fade-in">
+      <div style="display:inline-flex;align-items:center;gap:.75rem;background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.75rem">
+        <span style="font-size:1.5rem">👩‍🏫</span>
+        <div style="text-align:left"><div style="font-weight:700;font-size:.9rem">Larissa Alvarez Lobo</div><div style="font-size:.8rem;color:var(--muted)">Docente guía · Año lectivo 2026</div></div>
       </div>
     </div>
-
-    <div style="text-align:center; margin-top:2.5rem;" class="fade-in">
-      <div style="display:inline-flex; align-items:center; gap:.75rem; background:var(--light); border:1px solid var(--border); border-radius:12px; padding:1rem 1.75rem;">
-        <span style="font-size:1.5rem;">👩‍🏫</span>
-        <div style="text-align:left;">
-          <div style="font-weight:700; font-size:.9rem;">Larissa Alvarez Lobo</div>
-          <div style="font-size:.8rem; color:var(--muted);">Docente guía · Año lectivo 2026</div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- ── Footer ──────────────────────────────────────────────────── -->
 <footer>
-  <div style="display:flex; gap:.5rem; justify-content:center; margin-bottom:.75rem;">
-    <span style="display:inline-block; width:30px; height:10px; background:#0039A6; border-radius:2px;"></span>
-    <span style="display:inline-block; width:30px; height:10px; background:#CE1126; border-radius:2px;"></span>
-    <span style="display:inline-block; width:30px; height:10px; background:#0039A6; border-radius:2px;"></span>
+  <div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:.75rem">
+    <span style="display:inline-block;width:30px;height:10px;background:#0039A6;border-radius:2px"></span>
+    <span style="display:inline-block;width:30px;height:10px;background:#CE1126;border-radius:2px"></span>
+    <span style="display:inline-block;width:30px;height:10px;background:#0039A6;border-radius:2px"></span>
   </div>
   <strong>Regulación de la IA en la Educación Pública Costarricense</strong><br/>
   Seminario de Investigación: Costa Rica y el Mundo · MEP · 2026
 </footer>
 
-<!-- ── Scripts ─────────────────────────────────────────────────── -->
+<!-- ═══════════════════ SCRIPTS ═══════════════════════════════════ -->
 <script>
-  // Scroll-triggered fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
+/* ── scroll progress ───────────────────────────────────────────── */
+const pb = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const tot = document.documentElement.scrollHeight - window.innerHeight;
+  pb.style.width = (window.scrollY / tot * 100) + '%';
+});
+
+/* ── fade-in ───────────────────────────────────────────────────── */
+const fadeObs = new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting){ e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
+}), { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+/* ── animated counters ─────────────────────────────────────────── */
+function animCount(el, target, dur=1300){
+  const s=performance.now();
+  const upd=now=>{
+    const p=Math.min((now-s)/dur,1), e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(e*target);
+    if(p<1) requestAnimationFrame(upd);
+  };
+  requestAnimationFrame(upd);
+}
+new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting){
+    e.target.querySelectorAll('[data-target]').forEach(n => animCount(n, +n.dataset.target));
+    e.target._counted=true;
+  }
+}), { threshold:.4 }).observe(document.querySelector('.stats-bar'));
+
+/* ── active nav ────────────────────────────────────────────────── */
+const navLinks = document.querySelectorAll('nav ul a');
+new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id));
+}), { rootMargin:'-40% 0px -55% 0px' }).observe(document.querySelectorAll('section[id]'));
+document.querySelectorAll('section[id]').forEach(s =>
+  new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id));
+  }), { rootMargin:'-40% 0px -55% 0px' }).observe(s)
+);
+
+/* ── hero neural-network canvas ────────────────────────────────── */
+(function(){
+  const cv = document.getElementById('hero-canvas');
+  const ctx = cv.getContext('2d');
+  let W, H, nodes=[];
+  function resize(){ W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  const NODE_COUNT=55, LINK_DIST=110;
+  for(let i=0;i<NODE_COUNT;i++) nodes.push({
+    x:Math.random()*W, y:Math.random()*H,
+    vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+    r:Math.random()*2+1.5
+  });
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // links
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<LINK_DIST){
+          ctx.beginPath();
+          ctx.strokeStyle=`rgba(255,255,255,${(1-d/LINK_DIST)*0.35})`;
+          ctx.lineWidth=.8;
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.stroke();
+        }
       }
+    }
+    // nodes
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,0.6)';
+      ctx.fill();
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1;
+      if(n.y<0||n.y>H) n.vy*=-1;
     });
-  }, { threshold: 0.12 });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+/* ── radar chart ────────────────────────────────────────────────── */
+(function(){
+  const cv=document.getElementById('radar-canvas');
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height, cx=W/2, cy=H/2, R=130;
+  const labels=['Marco\nlegal','Formación\ndocente','Acceso\nequitativo','Protección\ndatos','Política\ninstitucional'];
+  const vals=[0.15,0.28,0.42,0.22,0.35];
+  const colors=['#CE1126','#f97316','#eab308','#3b82f6','#8b5cf6'];
+  const N=labels.length;
+  let animPct=0;
 
-  // Animate bars when they enter viewport
-  const barObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.querySelectorAll('.bar-fill').forEach(bar => {
-          const w = bar.style.width;
-          bar.style.width = '0';
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => { bar.style.width = w; });
-          });
-        });
-        barObserver.unobserve(e.target);
+  function angle(i){ return (Math.PI*2/N)*i - Math.PI/2; }
+  function pt(i, r){ return [cx+Math.cos(angle(i))*r, cy+Math.sin(angle(i))*r]; }
+
+  function draw(pct){
+    ctx.clearRect(0,0,W,H);
+    // grid rings
+    [.25,.5,.75,1].forEach(f => {
+      ctx.beginPath();
+      for(let i=0;i<N;i++){
+        const [x,y]=pt(i,R*f);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
       }
+      ctx.closePath();
+      ctx.strokeStyle='rgba(30,40,80,.12)'; ctx.lineWidth=1; ctx.stroke();
     });
-  }, { threshold: 0.3 });
+    // spokes
+    for(let i=0;i<N;i++){
+      const [x,y]=pt(i,R);
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
+      ctx.strokeStyle='rgba(30,40,80,.12)'; ctx.lineWidth=1; ctx.stroke();
+    }
+    // filled area
+    ctx.beginPath();
+    vals.forEach((v,i)=>{
+      const [x,y]=pt(i,R*v*pct);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.fillStyle='rgba(0,57,166,0.18)'; ctx.fill();
+    ctx.strokeStyle='#0039A6'; ctx.lineWidth=2.5; ctx.stroke();
+    // dots
+    vals.forEach((v,i)=>{
+      const [x,y]=pt(i,R*v*pct);
+      ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2);
+      ctx.fillStyle=colors[i]; ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+    });
+    // labels
+    ctx.font='bold 11px Segoe UI,system-ui,sans-serif';
+    ctx.fillStyle='#1a2540'; ctx.textAlign='center';
+    labels.forEach((lbl,i)=>{
+      const [x,y]=pt(i,R+24);
+      const lines=lbl.split('\n');
+      lines.forEach((l,li) => ctx.fillText(l, x, y+li*13-(lines.length-1)*6));
+    });
+  }
 
-  document.querySelectorAll('.survey-card').forEach(el => barObserver.observe(el));
+  // animate on intersection
+  let started=false;
+  new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting && !started){
+      started=true;
+      // animate radar bars too
+      document.querySelectorAll('.rl-bar-fill').forEach(b => { b.style.width = b.dataset.w+'%'; });
+      const s=performance.now();
+      const run=now=>{
+        animPct=Math.min((now-s)/1200,1);
+        draw(animPct);
+        if(animPct<1) requestAnimationFrame(run);
+      };
+      requestAnimationFrame(run);
+    }
+  }), { threshold:.3 }).observe(cv);
+  draw(0);
+})();
+
+/* ── POLL ────────────────────────────────────────────────────────── */
+const pollState={};
+document.querySelectorAll('.poll-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const q=+tab.dataset.tab;
+    document.querySelectorAll('.poll-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.poll-card').forEach(c=>c.classList.remove('active'));
+    document.querySelector(`.poll-card[data-q="${q}"]`).classList.add('active');
+  });
+});
+
+function revealPoll(card, chosen){
+  const opts=card.querySelectorAll('.poll-option');
+  const maxReal=Math.max(...[...opts].map(o=>+o.dataset.real));
+  opts.forEach(opt=>{
+    const real=+opt.dataset.real, idx=+opt.dataset.idx;
+    opt.classList.add('voted');
+    opt.querySelector('.opt-pct').textContent=real+'%';
+    opt.querySelector('.poll-fill').style.width=(real/maxReal*100)+'%';
+    if(idx===chosen) opt.classList.add('selected');
+    if(real===maxReal) opt.classList.add('winner');
+  });
+  card.querySelector('.poll-total').textContent=`Resultados ULACIT (${Math.floor(Math.random()*30)+50} respuestas)`;
+  const b=card.querySelector('.vote-btn'); b.textContent='✓ Voto registrado'; b.disabled=true;
+}
+
+document.querySelectorAll('.poll-card').forEach(card=>{
+  const q=+card.dataset.q;
+  const opts=card.querySelectorAll('.poll-option');
+  card.querySelector('.vote-btn').addEventListener('click', ()=>{
+    if(pollState[q]===undefined){
+      const b=card.querySelector('.vote-btn');
+      b.textContent='⚠ Selecciona una opción';
+      setTimeout(()=>{ b.textContent='Votar y ver resultados'; },1800);
+      return;
+    }
+    revealPoll(card, pollState[q]);
+  });
+  opts.forEach(opt=>opt.addEventListener('click', ()=>{
+    if(pollState[q]!==undefined) return;
+    opts.forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');
+    pollState[q]=+opt.dataset.idx;
+  }));
+});
+
+/* ── timeline ────────────────────────────────────────────────────── */
+document.querySelectorAll('.tl-item').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.tl-item.open').forEach(i=>i.classList.remove('open'));
+    if(!open) item.classList.add('open');
+  });
+});
+
+/* ── challenge filter ────────────────────────────────────────────── */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.challenge-card').forEach(c=>{
+      c.classList.toggle('hidden', f!=='all' && c.dataset.cat!==f);
+    });
+  });
+});
+
+/* ── accordion ───────────────────────────────────────────────────── */
+document.querySelectorAll('.rec-header').forEach(h=>{
+  h.addEventListener('click', ()=>{
+    const item=h.closest('.rec-item'), was=item.classList.contains('open');
+    document.querySelectorAll('.rec-item.open').forEach(i=>i.classList.remove('open'));
+    if(!was) item.classList.add('open');
+  });
+});
+
+/* ── quiz ────────────────────────────────────────────────────────── */
+let step=0, score=0;
+const TOTAL=5;
+function qProgress(){ document.getElementById('quiz-fill').style.width=(step/TOTAL*100)+'%'; }
+
+document.querySelectorAll('.quiz-step[data-step]').forEach(s=>{
+  const si=+s.dataset.step;
+  if(si>=TOTAL) return;
+  let answered=false;
+  const opts=s.querySelectorAll('.quiz-opt');
+  const nb=s.querySelector('.btn-next');
+  const fbOk=s.querySelector('.quiz-feedback.ok');
+  const fbFail=s.querySelector('.quiz-feedback.fail');
+
+  opts.forEach(o=>o.addEventListener('click', ()=>{
+    if(answered) return; answered=true;
+    const ok=o.dataset.correct==='true';
+    if(ok) score++;
+    opts.forEach(x=>{ x.classList.add('disabled');
+      if(x.dataset.correct==='true'){ x.classList.add('correct'); x.querySelector('.opt-icon').textContent='✓'; }
+      else if(x===o && !ok){ x.classList.add('wrong'); x.querySelector('.opt-icon').textContent='✗'; }
+    });
+    (ok?fbOk:fbFail).classList.add('show');
+    nb.disabled=false;
+  }));
+
+  nb.addEventListener('click', ()=>{
+    if(nb.disabled) return;
+    s.classList.remove('active'); step++; qProgress();
+    if(step<TOTAL){ document.querySelector(`.quiz-step[data-step="${step}"]`).classList.add('active'); }
+    else {
+      document.getElementById('quiz-fill').style.width='100%';
+      document.querySelector('.quiz-step[data-step="5"]').classList.add('active');
+      const pct=score/TOTAL;
+      document.getElementById('quiz-score').textContent=score+'/'+TOTAL;
+      const msgs=[
+        [1.01,'¡Perfecto! Experto/a en el tema 🏆','Dominas todos los hallazgos de esta investigación.'],
+        [.8,'¡Excelente resultado! 🎉','Tienes un sólido conocimiento sobre la regulación de la IA en Costa Rica.'],
+        [.6,'Buen intento 👍','Conoces los aspectos generales. Repasa las secciones anteriores para profundizar.'],
+        [.4,'Sigue aprendiendo 📚','Hay aspectos importantes que puedes reforzar explorando las secciones de la investigación.'],
+        [0,'Hay mucho por descubrir 🌱','Te invitamos a recorrer la investigación completa desde el inicio.']
+      ];
+      const [,v,d]=msgs.find(([t])=>pct>=t)||msgs[msgs.length-1];
+      document.getElementById('quiz-verdict').textContent=v;
+      document.getElementById('quiz-desc').textContent=d;
+      setTimeout(()=>{ document.getElementById('quiz-bar').style.width=(pct*100)+'%'; },200);
+    }
+  });
+});
+
+document.getElementById('quiz-restart').addEventListener('click', ()=>location.reload());
+qProgress();
+
+/* ── actores tabs ────────────────────────────────────────────────── */
+document.querySelectorAll('.actor-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    const id=tab.dataset.actor;
+    document.querySelectorAll('.actor-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.actor-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    const panel=document.getElementById('panel-'+id);
+    if(panel){
+      panel.classList.add('active');
+      panel.querySelectorAll('.invest-fill').forEach(bar=>{
+        const target=bar.dataset.w||'0%';
+        setTimeout(()=>{ bar.style.width=target; },100);
+      });
+    }
+  });
+});
+(function initFirstPanel(){
+  const firstPanel=document.querySelector('.actor-panel.active');
+  if(firstPanel){
+    firstPanel.querySelectorAll('.invest-fill').forEach(bar=>{
+      setTimeout(()=>{ bar.style.width=bar.dataset.w||'0%'; },600);
+    });
+  }
+})();
+
+/* ── ecosystem SVG nodes ─────────────────────────────────────────── */
+document.querySelectorAll('.eco-node').forEach(node=>{
+  node.addEventListener('click', ()=>{
+    document.querySelectorAll('.eco-node').forEach(n=>n.classList.remove('eco-active'));
+    node.classList.add('eco-active');
+    const actor=node.dataset.actor;
+    const matchTab=document.querySelector(`.actor-tab[data-actor="${actor}"]`);
+    if(matchTab){
+      matchTab.click();
+      matchTab.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
+  });
+});
 </script>
-
 </body>
 </html>
