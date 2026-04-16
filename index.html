@@ -117,16 +117,26 @@ section:nth-child(even){background:var(--white)}
 
 /* ── RESULTADOS ── */
 #resultados{background:var(--bg)}
-.results-tabs{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
-.rtab{padding:.5rem 1.2rem;border-radius:999px;border:2px solid var(--border);background:#fff;font-size:.8rem;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s}
-.rtab.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.rpanel{display:none}.rpanel.active{display:block}
+.res-group{margin-bottom:3.5rem}
+.res-group-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}
+.res-group-header .rg-icon{font-size:1.5rem}
+.res-group-header h3{font-size:1.1rem;font-weight:800;color:var(--text)}
+.res-group-header .rg-count{margin-left:auto;font-size:.75rem;font-weight:700;background:var(--blue-lt);color:var(--blue);padding:.25rem .7rem;border-radius:999px}
 
 /* chart wrapper */
-.chart-section{background:#fff;border-radius:var(--radius);padding:2rem;border:1px solid var(--border);margin-bottom:1.5rem}
-.chart-section h3{font-size:.95rem;font-weight:800;margin-bottom:.3rem}
-.chart-section .chart-q{font-size:.82rem;color:var(--muted);margin-bottom:1.5rem;font-style:italic}
+.chart-section{background:#fff;border-radius:var(--radius);padding:2rem;border:1px solid var(--border);margin-bottom:1.25rem}
+.chart-section h3{font-size:1rem;font-weight:800;margin-bottom:.3rem}
+.chart-section .chart-q{font-size:.83rem;color:var(--muted);margin-bottom:1.5rem;font-style:italic}
 .chart-note{font-size:.75rem;color:var(--muted);margin-top:1rem;text-align:right}
+
+/* key finding callout */
+.key-finding{background:linear-gradient(135deg,var(--blue) 0%,#1e50c8 100%);border-radius:12px;padding:1.25rem 1.5rem;margin-top:1rem;display:flex;align-items:center;gap:1rem}
+.key-finding .kf-icon{font-size:1.6rem;flex-shrink:0}
+.key-finding p{color:#fff;font-size:.875rem;line-height:1.55;font-weight:500}
+.key-finding p strong{color:#93c5fd}
+.key-finding.red{background:linear-gradient(135deg,var(--red) 0%,#9c0a1c 100%)}
+.key-finding.green{background:linear-gradient(135deg,#15803d 0%,#166534 100%)}
+.key-finding.orange{background:linear-gradient(135deg,#c2410c 0%,#9a3412 100%)}
 
 /* horizontal bars */
 .hbar-list{display:flex;flex-direction:column;gap:.85rem}
@@ -479,39 +489,36 @@ footer strong{color:#fff}
     <div class="section-header fade-in">
       <div class="section-tag red">Resultados</div>
       <h2>Hallazgos de la Encuesta (n=58)</h2>
-      <p>Presentación de los datos recopilados entre estudiantes de ULACIT en abril 2026. Selecciona cada categoría para explorar los resultados en detalle.</p>
+      <p>Datos recopilados entre estudiantes de ULACIT en abril 2026. Todos los porcentajes se calcularon directamente de las 58 respuestas al formulario.</p>
     </div>
 
-    <!-- Tabs -->
-    <div class="results-tabs fade-in">
-      <button class="rtab active" data-tab="perfil">👥 Perfil</button>
-      <button class="rtab" data-tab="uso">🤖 Uso de IA</button>
-      <button class="rtab" data-tab="regulacion">⚖️ Regulación</button>
-      <button class="rtab" data-tab="prioridades">🎯 Prioridades</button>
-    </div>
-
-    <!-- PANEL: Perfil -->
-    <div class="rpanel active fade-in" id="rpanel-perfil">
+    <!-- ① PERFIL -->
+    <div class="res-group fade-in">
+      <div class="res-group-header">
+        <span class="rg-icon">👥</span>
+        <h3>Perfil de los Encuestados</h3>
+        <span class="rg-count">n = 58</span>
+      </div>
       <div class="demo-grid">
-        <div class="demo-card chart-section">
+        <div class="chart-section">
           <h3>Distribución por Edad</h3>
           <p class="chart-q">¿Cuál es tu rango de edad?</p>
           <div class="hbar-list" id="chart-edad"></div>
         </div>
-        <div class="demo-card chart-section">
+        <div class="chart-section">
           <h3>Distribución por Género</h3>
-          <p class="chart-q">¿Con qué género te identificas?</p>
+          <p class="chart-q">Género de los encuestados</p>
           <div class="donut-wrap" style="justify-content:center">
             <canvas id="donut-genero" width="130" height="130"></canvas>
             <div class="donut-legend" id="legend-genero"></div>
           </div>
         </div>
-        <div class="demo-card chart-section">
+        <div class="chart-section">
           <h3>Carrera que Cursa</h3>
           <p class="chart-q">¿Qué carrera estudias actualmente?</p>
           <div class="hbar-list" id="chart-carrera"></div>
         </div>
-        <div class="demo-card chart-section">
+        <div class="chart-section">
           <h3>Año Académico</h3>
           <p class="chart-q">¿En qué año de la carrera te encuentras?</p>
           <div class="hbar-list" id="chart-anio"></div>
@@ -519,94 +526,140 @@ footer strong{color:#fff}
       </div>
     </div>
 
-    <!-- PANEL: Uso -->
-    <div class="rpanel" id="rpanel-uso">
-      <div class="chart-section fade-in">
-        <h3>¿Ha utilizado herramientas de IA?</h3>
-        <p class="chart-q">¿Ha utilizado herramientas de Inteligencia Artificial (ej. ChatGPT, Copilot, Gemini)?</p>
+    <!-- ② USO DE IA -->
+    <div class="res-group fade-in">
+      <div class="res-group-header">
+        <span class="rg-icon">🤖</span>
+        <h3>Uso de Herramientas de Inteligencia Artificial</h3>
+        <span class="rg-count">Preguntas 1 y 2</span>
+      </div>
+
+      <div class="chart-section">
+        <h3>P1 · ¿Ha utilizado herramientas de IA?</h3>
+        <p class="chart-q">¿Ha utilizado herramientas de Inteligencia Artificial como ChatGPT, Copilot o Gemini?</p>
         <div class="donut-wrap">
           <canvas id="donut-uso" width="160" height="160"></canvas>
-          <div>
-            <div class="donut-legend" id="legend-uso"></div>
-            <p style="font-size:.82rem;color:var(--muted);margin-top:1rem;max-width:360px;line-height:1.6">
-              La adopción de herramientas de IA entre los estudiantes encuestados es prácticamente universal: <strong>57 de 58 personas</strong> reportan haberlas utilizado, lo que evidencia que la IA ya es parte del entorno académico cotidiano.
-            </p>
-          </div>
+          <div class="donut-legend" id="legend-uso"></div>
+        </div>
+        <div class="key-finding">
+          <span class="kf-icon">💡</span>
+          <p><strong>98.3% de los encuestados (57 de 58)</strong> reporta haber utilizado herramientas de IA. La adopción es prácticamente universal — la IA ya forma parte del entorno académico cotidiano.</p>
         </div>
       </div>
-      <div class="chart-section fade-in">
-        <h3>Frecuencia de uso de IA en Secundaria</h3>
+
+      <div class="chart-section">
+        <h3>P2 · Frecuencia percibida de uso de IA en Secundaria</h3>
         <p class="chart-q">¿Con qué frecuencia cree usted que los estudiantes de secundaria utilizan herramientas de IA actualmente?</p>
         <div class="hbar-list" id="chart-frecuencia"></div>
+        <div class="key-finding green">
+          <span class="kf-icon">📊</span>
+          <p>El <strong>70.7% percibe uso frecuente o constante</strong> en secundaria (41.4% "siempre" + 29.3% "frecuentemente"). Esto evidencia que la IA ya opera en la educación pública sin regulación.</p>
+        </div>
         <div class="chart-note">n = 58 · Abril 2026</div>
       </div>
     </div>
 
-    <!-- PANEL: Regulación -->
-    <div class="rpanel" id="rpanel-regulacion">
-      <div class="chart-section fade-in">
-        <h3>Actitud hacia la Regulación Formal del MEP</h3>
+    <!-- ③ REGULACIÓN -->
+    <div class="res-group fade-in">
+      <div class="res-group-header">
+        <span class="rg-icon">⚖️</span>
+        <h3>Percepción sobre la Regulación del MEP</h3>
+        <span class="rg-count">Preguntas 3, 4 y 5</span>
+      </div>
+
+      <div class="chart-section">
+        <h3>P3 · Actitud hacia la Regulación Formal del MEP</h3>
         <p class="chart-q">Considero que el MEP debe regular formalmente el uso de la Inteligencia Artificial en la educación pública.</p>
         <div class="hbar-list" id="chart-regulacion"></div>
-        <div class="chart-note">69% de acuerdo o totalmente de acuerdo · n = 58</div>
+        <div class="key-finding">
+          <span class="kf-icon">✅</span>
+          <p>El <strong>69% está de acuerdo o totalmente de acuerdo</strong> con la regulación formal. Si se incluye el segmento neutral (19%), el <strong>88% no se opone</strong> — una base de apoyo amplia para justificar acción política.</p>
+        </div>
+        <div class="chart-note">Totalmente de acuerdo 46.6% + De acuerdo 22.4% = 69% · n = 58</div>
       </div>
-      <div class="chart-section fade-in">
-        <h3>Necesidad de Regulación (Escala 1–10)</h3>
+
+      <div class="chart-section">
+        <h3>P4 · Necesidad de Regulación (Escala 1–10)</h3>
         <p class="chart-q">¿Qué tan necesaria considera usted la regulación del uso de la IA en la educación pública?</p>
         <div class="gauge-wrap">
-          <div class="stat-num" style="color:var(--blue);font-size:3rem">7.47<span style="font-size:1.2rem;color:var(--muted)">/10</span></div>
+          <div class="stat-num" style="color:var(--blue);font-size:3.5rem;font-weight:900">7.47<span style="font-size:1.3rem;color:var(--muted);font-weight:600"> /10</span></div>
           <div class="gauge-sub">Promedio general · 58 encuestados</div>
           <div class="gauge-bar"><div class="gauge-marker" id="gauge-marker" style="left:0%"></div></div>
           <div class="gauge-labels"><span>0 — Nada necesaria</span><span>5</span><span>10 — Indispensable</span></div>
         </div>
         <div class="hbar-list" id="chart-necesidad" style="margin-top:1.5rem"></div>
+        <div class="key-finding red">
+          <span class="kf-icon">🔴</span>
+          <p>El <strong>58.6% eligió valores de 8 a 10</strong> en la escala de necesidad. La media de 7.47/10 indica que los estudiantes no solo aceptan la regulación — la consideran urgente.</p>
+        </div>
       </div>
-      <div class="chart-section fade-in">
-        <h3>Probabilidad de Mejora Educativa</h3>
+
+      <div class="chart-section">
+        <h3>P5 · Probabilidad de Mejora Educativa con Regulación</h3>
         <p class="chart-q">¿Qué tan probable considera usted que una regulación adecuada de la IA mejore la calidad educativa en colegios públicos?</p>
         <div class="hbar-list" id="chart-mejora"></div>
-        <div class="chart-note">53.5% considera que es "muy" o "definitivamente" probable · n = 58</div>
+        <div class="key-finding green">
+          <span class="kf-icon">📈</span>
+          <p>El <strong>84.5% considera probable o muy probable</strong> que la regulación mejore la calidad educativa (19% definitivamente + 34.5% muy probable + 31% moderadamente). La regulación es vista como una herramienta de mejora, no de restricción.</p>
+        </div>
+        <div class="chart-note">n = 58 · Abril 2026</div>
       </div>
-      <div class="chart-section fade-in">
-        <h3>Valoración General de la Regulación (Escala 0–10)</h3>
+
+      <div class="chart-section">
+        <h3>P6 · Valoración General del Impacto de la Regulación (Escala 0–10)</h3>
         <p class="chart-q">Desde su perspectiva, ¿cómo valoraría el impacto de la regulación del uso de IA por parte del MEP? (0 = muy negativo · 10 = muy positivo)</p>
         <div class="hbar-list" id="chart-valoracion"></div>
-        <div class="chart-note">Media: 6.48/10 · 41.4% le asigna puntuación alta (8–10) · n = 58</div>
+        <div class="key-finding orange">
+          <span class="kf-icon">📉</span>
+          <p>Media de <strong>6.48/10</strong>. El 41.4% le asigna puntuación alta (8–10), lo que desmonta la narrativa de que regular la IA frenaría la innovación — la mayoría la ve con impacto positivo.</p>
+        </div>
+        <div class="chart-note">Media: 6.48/10 · 41.4% puntuación alta (8–10) · n = 58</div>
       </div>
     </div>
 
-    <!-- PANEL: Prioridades -->
-    <div class="rpanel" id="rpanel-prioridades">
-      <div class="chart-section fade-in">
-        <h3>Primera Prioridad Regulatoria del MEP</h3>
-        <p class="chart-q">Ordene los siguientes objetivos según la prioridad que debería tener el MEP al regular la IA (se muestra el porcentaje que eligió cada objetivo como #1).</p>
+    <!-- ④ PRIORIDADES -->
+    <div class="res-group fade-in">
+      <div class="res-group-header">
+        <span class="rg-icon">🎯</span>
+        <h3>Prioridades Regulatorias para el MEP</h3>
+        <span class="rg-count">Pregunta 7</span>
+      </div>
+
+      <div class="chart-section">
+        <h3>P7 · ¿Qué debe priorizar el MEP? (% que eligió como #1)</h3>
+        <p class="chart-q">Ordene los siguientes objetivos según la prioridad que debería tener el MEP al regular la IA. Se muestra el porcentaje que eligió cada objetivo en primer lugar.</p>
         <div class="prio-list" id="chart-prioridades"></div>
+        <div class="key-finding">
+          <span class="kf-icon">🏆</span>
+          <p>El <strong>69% prioriza integridad y ética</strong>: prevenir el plagio académico (36.2%) o garantizar el uso ético (32.8%). Una normativa centrada en estos ejes tendría alta aceptación estudiantil.</p>
+        </div>
         <div class="chart-note">Basado en la primera posición elegida por cada encuestado · n = 58</div>
       </div>
-      <div class="chart-section fade-in" style="margin-top:1.5rem">
-        <h3>Interpretación de Prioridades</h3>
-        <p class="chart-q">¿Qué nos dice la distribución?</p>
-        <div class="intro-grid" style="margin-top:0">
-          <div class="intro-card" style="padding:1.25rem">
-            <div class="ic-icon" style="font-size:1.5rem">📝</div>
-            <h3 style="font-size:.875rem">Prevenir el plagio académico (36.2%)</h3>
-            <p style="font-size:.78rem">La principal preocupación es la integridad académica, reflejando la experiencia directa de los estudiantes con el uso no ético de la IA en evaluaciones.</p>
-          </div>
-          <div class="intro-card highlight" style="padding:1.25rem">
-            <div class="ic-icon" style="font-size:1.5rem">⚖️</div>
-            <h3 style="font-size:.875rem">Garantizar el uso ético (32.8%)</h3>
-            <p style="font-size:.78rem">La ética de la IA es la segunda preocupación, mostrando madurez en la comprensión de los riesgos más allá del plagio.</p>
-          </div>
-          <div class="intro-card" style="padding:1.25rem">
-            <div class="ic-icon" style="font-size:1.5rem">💡</div>
-            <h3 style="font-size:.875rem">Promover la innovación (19%)</h3>
-            <p style="font-size:.78rem">Un quinto de los encuestados prioriza el potencial pedagógico de la IA, abogando por un enfoque equilibrado entre control e innovación.</p>
-          </div>
-          <div class="intro-card" style="padding:1.25rem">
-            <div class="ic-icon" style="font-size:1.5rem">👩‍🏫</div>
-            <h3 style="font-size:.875rem">Capacitar docentes (12.1%)</h3>
-            <p style="font-size:.78rem">La formación docente aparece como prioridad complementaria, reconociendo que sin capacitación, cualquier regulación será ineficaz.</p>
-          </div>
+
+      <div class="demo-grid" style="margin-top:1.25rem">
+        <div class="chart-section">
+          <div style="font-size:2rem;margin-bottom:.5rem">📝</div>
+          <h3 style="font-size:1rem">Prevenir el plagio académico</h3>
+          <div style="font-size:2.5rem;font-weight:900;color:var(--blue);margin:.5rem 0">36.2%</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6">Preocupación directa con la integridad en evaluaciones — la más sentida por los estudiantes universitarios.</p>
+        </div>
+        <div class="chart-section" style="border-color:var(--blue-mid);background:var(--blue-lt)">
+          <div style="font-size:2rem;margin-bottom:.5rem">⚖️</div>
+          <h3 style="font-size:1rem;color:var(--blue)">Garantizar el uso ético de la IA</h3>
+          <div style="font-size:2.5rem;font-weight:900;color:var(--blue);margin:.5rem 0">32.8%</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6">Refleja madurez en la comprensión de los riesgos éticos más allá del simple plagio académico.</p>
+        </div>
+        <div class="chart-section">
+          <div style="font-size:2rem;margin-bottom:.5rem">💡</div>
+          <h3 style="font-size:1rem">Promover la innovación educativa</h3>
+          <div style="font-size:2.5rem;font-weight:900;color:#f97316;margin:.5rem 0">19.0%</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6">Apuesta por un enfoque equilibrado: regular sin frenar el potencial pedagógico de la IA.</p>
+        </div>
+        <div class="chart-section">
+          <div style="font-size:2rem;margin-bottom:.5rem">👩‍🏫</div>
+          <h3 style="font-size:1rem">Capacitar docentes en IA</h3>
+          <div style="font-size:2.5rem;font-weight:900;color:#8b5cf6;margin:.5rem 0">12.1%</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6">Sin formación docente, cualquier normativa queda sin implementación efectiva en el aula.</p>
         </div>
       </div>
     </div>
@@ -1438,23 +1491,16 @@ renderBars('chart-valoracion',[
 })();
 
 /* ══════════════════════════════════════════════════════════════════
-   RESULTS TABS
+   AUTO-ANIMATE ALL BARS ON SCROLL (presentation-safe)
 ══════════════════════════════════════════════════════════════════ */
-document.querySelectorAll('.rtab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.rpanel').forEach(p=>p.classList.remove('active'));
-    tab.classList.add('active');
-    const panel=document.getElementById('rpanel-'+tab.dataset.tab);
-    if(panel){
-      panel.classList.add('active');
-      // trigger bar animations in newly visible panel
-      panel.querySelectorAll('.hbar-fill,.prio-fill').forEach(bar=>{
-        setTimeout(()=>{ bar.style.width=bar.dataset.w; },100);
-      });
-    }
+// Also trigger immediately after 800ms for any already-visible bars
+setTimeout(()=>{
+  document.querySelectorAll('.hbar-fill,.prio-fill,.invest-fill').forEach(b=>{
+    if(b.dataset.w) b.style.width=b.dataset.w;
   });
-});
+  const m=document.getElementById('gauge-marker');
+  if(m) m.style.left='74.7%';
+},800);
 
 /* ══════════════════════════════════════════════════════════════════
    ACTORES TABS
